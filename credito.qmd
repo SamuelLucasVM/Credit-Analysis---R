@@ -1,0 +1,695 @@
+---
+title: "Crédito e Suas Relações"
+author: "Samuel Lucas Vieira Matos, Marcus Paulo dos Santos Ferreira e Guilherme Silva Toledo"
+format: html
+number-sections: true
+toc: true
+toc-depth: 3
+lang: pt
+bibliography: refs/refs.bib
+date: today
+editor: visual
+---
+
+```{r Setup}
+#| echo: true
+
+# Setup para o relatório Quarto
+
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+
+```
+
+# Introdução
+
+Este relatório tem por objetivo ajustar um modelo de regressão linear múltiplo com o intuito de investigar a influência de determinadas características (medidas) associadas a características de pessoas a característica `gasto médio em crédito` (`“balance”`).
+
+Neste contexto a regressão será realizada sobre a base de dados `Credit`, introduzida no livro @James2013, que contém características relacionadas a pessoas que possuem crédito em contas de banco, por exemplo: renda, limite de crédito, nível de educação e idade.
+
+# Os dados
+
+É possível baixar os dados do [UCI Machine Learning Repository -- Iris Data Set](https://archive.ics.uci.edu/dataset/53/iris), mas a biblioteca `ISLR` do *R* já os contém. Apenas carregando a biblioteca, um data frame chamado `credit` fica disponibilizado e poderá ser usado imediatamente. Vejamos em seguida.
+
+```{r}
+library(dplyr)
+library(ISLR)
+
+glimpse(Credit) 
+
+#2. Descreva a base de dados indicando o número de observações e as variáveis com os
+#names, seus signicados e as correspondentes unidades de medida;
+```
+
+(TODO) Visualizando rapidamente a estrutura da base de dados, observamos as seguintes variáveis:
+
+-   `Var.Name`: some description;
+
+## Análise exploratória dos dados
+
+```{r}
+library(skimr)
+
+dados <- Credit
+
+skim(dados)
+
+dadosNum <- select(dados, -c(ID, Gender, Student, Married, Ethnicity))
+dadosNum <- dadosNum %>%
+  select(Balance, everything())
+
+```
+
+### Comentários:
+
+....
+
+### Análise de correlação {#sec-GGally}
+
+```{r}
+library(GGally)
+
+graf1 <- ggpairs(dadosNum, columns = 1:ncol(dadosNum))
+graf1
+
+library(ggplot2)
+ggsave("Grafico_dispersao_iris.jpeg")
+
+```
+
+#### Comentários
+
+É possível observar que:
+
+1)  A variável dependente `Balance`:
+
+<!-- -->
+
+i.  não apresenta correlação linear significante com a variável `Age` (r= 0.002, p \> 1);
+
+ii. não apresenta correlação linear significante com a variável `Education` (r= -0.008, p \< 1);
+
+iii. apresenta correlação linear baixa com a variável `Cards` (r= 0.086, p \< 0.05);
+
+iv. apresenta correlação linear significante com a variável `Income` (r= 0.464, p \< 0);
+
+v. apresenta correlação linear significante com a variável `Limit` (r= 0.862, p \< 0);
+
+vi. apresenta correlação linear significante com a variável `Rating` (r= 0.864, p \< 0);
+
+<!-- -->
+
+2)  A variável independente `Income`:
+
+<!-- -->
+
+i.  apresenta correlação linear significativa com a variável *independente* `Limit` (r=-0.792, p \< 0).
+
+Como esta correlação, em valor absoluto é praticamente 0.8, ou seja **pode haver indício** para um posterior **problema de multicolinearidade**.
+
+ii. apresenta correlação linear significativa com a variável *independente* `Rating` (r=-0.791, p \< 0).
+
+Como esta correlação, em valor absoluto é praticamente 0.8, ou seja **pode haver indício** para um posterior **problema de multicolinearidade**.
+
+iii. apresenta correlação linear significativa com a variável *independente* `Age` (r=0.175, p\< 0)
+
+Como esta correlação, em valor absoluto não é superior a 0.9 (ou 0.8) não há indício para um posterior problema de multicolinearidade.
+
+3)  A variável independente `Limit`:
+
+<!-- -->
+
+i.  apresenta correlação linear significativa com a variável *independente* `Rating` (r=0.997, p \< 0).
+
+Como esta correlação, em valor absoluto é superior a 0.9 **há indício** para um posterior **problema de multicolinearidade**. Observa-se, ainda, que tal correlação é do tipo forte e positiva, ou seja, **as medidas** associadas se relacionam de forma **fortemente positiva**.
+
+ii. apresenta correlação linear significativa com a variável *independente* `Age` (r=0.101, p\< 0.01)
+
+Como esta correlação, em valor absoluto não é superior a 0.9 (ou 0.8) não há indício para um posterior problema de multicolinearidade.
+
+<!-- -->
+
+4) A variável independente `Rating`:
+
+<!-- -->
+
+i. apresenta correlação linear significativa com a variável *independente* `Age` (r=0.103, p\< 0.01)
+
+Como esta correlação, em valor absoluto não é superior a 0.9 (ou 0.8) não há indício para um posterior problema de multicolinearidade.
+
+<!-- -->
+
+#### Multicolinearidade - Analisando o VIF - Variance Inflation Factor
+
+```{r}
+library(car)
+modelo1 <- lm(Balance ~ ., data = dadosNum)
+
+vif(modelo1)
+
+#modelo2 <- update(modelo1, ~ . -Income)
+
+#vif(modelo2)
+
+#modelo3 <- update(modelo1, ~ . -Limit)
+
+#vif(modelo3)
+
+modelo4 <- update(modelo1, ~ . -Rating)
+
+#vif(modelo4)
+```
+
+Como podemos ver, são as variáveis `Limit` e `Rating` apresentam vif maior que 10 e são exatamente elas que também apresentaram forte correlação positiva.
+
+# Ajuste do modelo 1
+
+```{r}
+summary(modelo1)
+```
+\
+Ao observar o ajuste do primeiro modelo com o intuito de prever o `Gasto médio em crédito` (`Balance`), tem-se que as variáveis `Income`, `Limit`, `Rating` e `Age` explicam de forma estatísticamente significativa e com um bom ajuste indicado pelo Coeficiente de determinação ajustado (Adjusted R-squared: 0.8764). Entretanto, dois resultados nos chamam a atenção, quais sejam:
+
+1)  O erro padrão da variável `Cards` é extremamente maior que os erros padrões das demais variáveis preditoras;
+
+2)  O erro padrão da variável `Education` é significativamente maior que os erros padrões das demais variáveis preditoras;
+
+3)  A variável `Income`
+
+Resumindo, diante das análises prévias e constatações a partir dos resultados do modelo, identificamos que existe o problema de multicolinearidade de modo que as variáveis preditoras `Petal.Length` e `Petal.Width` não conseguem explicar a variável resposta `Sepal.Length` de forma uníssona, pois as mesmas compartilham da mesma informação muito fortemente de modo que elas competem para juntas explicarem/predizerem a variável resposta `Sepal.Length`, compromentendo assim, a confiabilidade dos coeficientes estimados e dos valores p.
+
+## Existe multicolinearidade, e agora?
+
+-   Se você detectar multicolinearidade, o próximo passo é decidir se você precisa resolvê-la de alguma forma.
+
+-   Dependendo do objetivo da sua análise de regressão, você pode não precisar realmente resolver a multicolinearidade.
+
+-   Para uma orientação sobre este tema com mais detalhes, recomendamos a leitura de um Guia disponível em:
+
+<https://www.statology.org/multicollinearity-regression/>
+
+ou
+
+[Quando você pode ignorar a multicolinearidade com segurança?](https://statisticalhorizons.com/multicollinearity/)
+
+\
+
+Na presente análise, seguiremos ajustando dois modelos excluindo do modelo inicial e completo 1, cada uma das variáveis explicativas em separado (`Petal.Length` e `Petal.Width`), mantendo a outra no modelo inicial. Vejamos:
+
+\
+
+## Modelo sem `Petal.Width` (modelo2) {#sec-modelo2selecionado}
+
+```{r}
+#modelo2 <- update(modelo1, ~ . -Petal.Width)
+
+#summary(modelo2)
+
+```
+
+> Observa-se que; para este modelo ajustado; todas as variáveis independentes são estatísticamente significativas com a adequação de ajuste do modelo aos dados igual a 83,8% (Adjusted R-squared: 0.838).
+
+\
+
+## Modelo sem `Petal.Length` (modelo3)
+
+```{r}
+#modelo3 <- update(modelo1, ~ . -Petal.Length)
+
+#summary(modelo3)
+
+```
+
+> Para este modelo e de maneira análoga ao modelo anterior; todas as variáveis independentes são estatísticamente significativas. Por outro lado, a adequação de ajuste do modelo aos dados igual a 70,33% (Adjusted R-squared: 0.7033) é inferior ao modelo anterior.
+
+Podemos rever a análise de correlação e observar que a variável `Petal.Width` apresenta correlação linear um pouco menor com a variável resposta `Sepal.Length` quando comparada com a variável `Petal.Length`.
+
+Seguiremos, para efeito didático com a exposição de formas de seleção de modelos.
+
+\
+
+# Métodos de seleção de modelos
+
+## Medida AIC
+
+```{r}
+#AIC(modelo2)
+
+#AIC(modelo3)
+
+```
+
+> Comparando-se os dois modelos com a exclusão; em separado; das duas variáveis que apresentam multicolinearidade; observa-se que o modelo com o menor valor de AIC é o modelo 2 e; portanto; é o preferível. Além disso, como regra prática, observa-se uma diferença entre os valores superior a 10 para que haja um indício significativo de real diferença.
+
+## Medida BIC
+
+```{r}
+#BIC(modelo2)
+
+#BIC(modelo3)
+
+```
+
+> De maneira análoga à interpretação da medida AIC, interpreta-se a medida BIC e; conforme pode ser visto; o modelo com o menor valor de BIC é o modelo 2 e; portanto; é o preferível. Além disso, como regra prática, observa-se uma diferença entre os valores superior a 10 para que haja um indício significativo de real diferença.
+
+## Comparação de modelos encaixados (ANOVA)
+
+Uma análise de variância (ANOVA) com o intuito de **selecionar um modelo (variáveis)** é possível ser utilizada quando se deseja comparar **modelos aninhados**; ou seja; quando um ou mais modelo é obtido como sub-conjunto do(s) outro(s). Vejamos como se aplica na presente análise.
+
+\
+
+```{r}
+#anova(modelo2, modelo1)
+
+```
+
+> Observa-se pelo teste F que **deve-se rejeitar a hipótese nula** de que o modelo completo (com a variável `Petal.Width` inclusa) explica **tão bem quanto o sub-modelo sem a variável** `Petal.Width` (p \< 0,001). Em outras palavras, esta variável é estatísticamente significante para a regressão (ainda que haja problema de multicolinearidade quando na presença da variável `Petal.Length`).
+
+\
+
+```{r}
+#anova(modelo3, modelo1)
+
+```
+
+> Ao realizar a ANOVA para verificar a significância da variável `Petal.Length` para regressão, observa-se resultado análogo ao da variável `Petal.Width`; ou seja; a variável `Petal.Length` é estatísticamente significante para a regressão (ainda que haja problema de multicolinearidade quando na presença da variável `Petal.Width`).
+
+\
+
+# Seleção automática de modelo pelo AIC
+
+```{r}
+#step(modelo1)
+
+#step(modelo1, direction = "backward")
+
+#step(modelo1, direction = "forward")
+
+#step(modelo1, direction = "both")
+
+```
+
+\
+
+# Modelo selecionado (modelo2)
+
+Diante das análises realizadas até o momento e tendo como objetivos não apenas realizar previsões mas também interpretar de forma prática a relação entre as variáveis; o modelo a ser adotado e a ser **verificado o atendimento dos pressuposto** de um MRLM é o **modelo 2**. Vejamos:
+
+```{r}
+#plot(modelo2)
+
+```
+
+## Análises dos pressupostos e Comentários
+
+Análises análogas à Regressão Linear Simples.
+
+...
+
+# Interpretações do modelo selecionado
+
+Uma maneira automatizada para se relatar os resultados de um modelo é utilizando a função `report` do pacote de mesmo nome.
+
+No relatório a ser entregue, o texto deve estar traduzido e interpretado também em termos práticos, de acordo com os objetivos do problema em estudo.
+
+```{r}
+#library(report)
+
+#report(modelo2)
+
+```
+
+## Coeficientes padronizados
+
+Para efeito de comparação dos coeficientes associados a cada variável preditora e observação da importância ou peso das mesmas para uma predição, torna-se necessário obter os **coeficientes padronizados** principalmente quando as unidades de medida das variáveis admitem magnitudes de valores bem distindos, por exemplo, uma característica medida em centímetros e outra em metros. Veja como obtê-los sobre o modelo selecionado (o modelo2).
+
+```{r}
+# Função lm.beta() do pacote lm.beta
+
+#lm.beta::lm.beta(modelo2)
+
+```
+
+# Previsões
+
+Para realizar previsões sobre valores para a variável resposta, recomenda-se o uso de valores para as variáveis explicativas dentro dos respectivos intervalos observados. Daí a importância de um breve resumo sobre os dados observados:
+
+```{r}
+#summary(dados)
+
+```
+
+Agora, suponha que temos por objetivo prever os valores para os comprimentos das sépalas considerando os seguintes valores para as variáveis explicativas:
+
+```{r}
+#novas.preditoras <- data.frame(Sepal.Width=c(2.5, 3.0, 3.5), Petal.Length=c(2.0, 4.0, 3.0))
+
+```
+
+**Observação**:
+
+O data.frame `novas.preditoras` com os novos valores das variáveis preditoras deve ser construído com os mesmos nomes das variáveis preditoras utilizadas no objeto que contém o modelo ajustado.
+
+## Intervalo de Confiança
+
+Um **intervalo de confiança** captura a incerteza em torno dos **valores médios (valores esperados)** preditos.
+
+```{r}
+
+#predict(modelo2, novas.preditoras,
+#        interval = "confidence")
+
+```
+
+## Intervalo de Predição/Previsão
+
+Um **intervalo de predição** captura a incerteza em torno de um **único valor** não observado na base de dados e não em torno do seu **valor médio/esperado** o qual é obtido pelas variáveis preditoras observadas na base de dados.
+
+```{r}
+#predict(modelo2, novas.preditoras,
+#        interval = "prediction")
+
+```
+
+\
+
+## Observações
+
+> 1.  Um **intervalo de predição/previsão** sempre será mais amplo do que um **intervalo de confiança** para os mesmos valores das variáveis independentes.
+
+> 2.  Você deve **usar** um **intervalo de previsão/predição** quando estiver interessado em previsões individuais específicas, porque um **intervalo de confiança** produzirá um intervalo de valores **muito estreito**, resultando em uma chance maior de que o intervalo **não contenha** o valor verdadeiro.
+
+> 3.  Sugere-se a leitura do seguinte Guia sobre previsões de valores:
+
+<https://www.statology.org/prediction-interval-r/>
+
+\
+
+# Regressão com variáveis Qualitativas (Dummies/Fictícias/Indicadoras)
+
+A seguir realizamos uma breve análise exploratória através de visualizações gráficas da variável resposta `Sepal.Length` segundo a variável categórica `Species`.
+
+## `Sepal.Length` versus `Species`
+
+### Visualizações gráficas
+
+```{r}
+#g1 <- ggplot(dados, aes(x=Species, y=Sepal.Length)) +
+#  geom_boxplot(fill="blue", alpha=0.4) +
+#  theme_classic()
+
+#g1
+
+```
+
+```{r}
+#g1 + geom_jitter()
+```
+
+```{r}
+#g2 <- ggplot(dados, aes(x=Species, y=Sepal.Length)) +
+#  geom_violin(fill="blue", alpha=0.4) +
+#  theme_classic()
+
+#g2
+
+```
+
+```{r}
+#g3 <- ggplot(dados, aes(x=Sepal.Length, fill=Species)) +
+#  geom_density(stat = "density", alpha=0.6) +
+#  theme_classic()
+
+#g3
+
+```
+
+\
+
+**Interpretações**:
+
+...
+
+\
+
+## Sobre os "levels" da variável `Species`
+
+> -   A maioria dos modelos estatísticos, assim como é o caso da regressão linear, foram desenvolvidos para lidar nativamente com variáveis quantitativas;
+
+> -   Desta forma, naturalmente variáveis categóricas não se encaixam em tais modelos;
+
+> -   É neste contexto que as variáveis dummies/fictícias/indicadoras são importantes;
+
+> -   A ideia das variáveis dummies é transformar variáveis categóricas em variáveis quantitativas, de forma que elas possam ser incorporadas em modelos estatísticos.
+
+Veremos este tema agora conhecendo os níveis da variável categórica `Species`.
+
+```{r}
+#levels(dados$Species) # está em ordem alfabética
+
+```
+
+\
+
+Observa-se que as categorias encontram-se em ordem alfabética e como a categoria `setosa` é a que ocupa a **primeira posição** do vetor de categorias; segue que esta é a **categoria de referência**. Desta forma,
+
+> A variável `Species` que tem ***3 categorias*** é substuída por um vetor de ***2 variáveis*** (***2 colunas na base de dados***) do tipo **variáveis Dummies, Fictícias ou Indicadoras**: $(Z_1, Z_2)=(z_1, z_2)$ codificadas como:
+
+> -   $Z_1 \quad$: igual a 1 se a espécie é **versicolor** e 0; caso contrário; =\> $(Z_1, Z_2)=(1, 0)$;
+
+> -   $Z_2 \quad$: igual a 1 se a espécie é **virginica** =\> $(Z_1, Z_2)=(0, 1)$;
+
+> -   No caso em que ocorre simultaneamente $Z_1=0$ e $Z_2=0$; então tem-se a **observação** de uma espécie do tipo **setosa** =\> $(Z_1, Z_2)=(0, 0)$
+
+\
+
+Por exemplo, observando uma amostra da base de dados abaixo, tem-se que:
+
+> As observações da base de dados de número 68, 51 e 85; dentre outras em situações análogas; serão usadas no MRLM após substituir a coluna `Species`=**"versicolor"** por duas outras colunas em que na coluna de $Z_1$ constará o valor 1 e na coluna $Z_2$ constará o valor 0; ou seja;
+
+=\> $(Z_1, Z_2)=(1, 0)$ para todas as observações em que `Species`="versicolor"
+
+> Já a observação de número 129 da base de dados será usada no MRLM após substituir a coluna `Species`=**"virginica"** por duas outras colunas em que na coluna de $Z_1$ constará o valor 0 e na coluna $Z_2$ constará o valor 1; ou seja;
+
+=\> $(Z_1, Z_2)=(0, 1)$ para todas as observações em que `Species`="virginica"
+
+> Com relação às observações da base de dados de número 43 e 14; dentre outras em situações análogas; serão usadas no MRLM após substituir a coluna `Species`=**"setosa"** por duas outras colunas em que na coluna de $Z_1$ constará o valor 0 e na coluna $Z_2$ constará o valor 0 também; ou seja;
+
+=\> $(Z_1, Z_2)=(0, 0)$ para todas as observações em que `Species`="setosa"
+
+```{r}
+#set.seed(1)
+
+# Uma amostra da base de dados para exemplo
+#df.original <- head(dados[sample(1:150, 150),])
+
+# Data frame com a variável categórica
+#df.original
+
+# Obtém as 3 colunas dummies sem a coluna do intecepto (-1)
+#dummies <- model.matrix(~ Species -1, data = df.original)
+
+# Exclui a primeira dummie para não haver colinearidade
+#dummies <- dummies[,-1]
+
+# Se desejar excluir a variável categórica original
+#df.original <- df.original %>% select(-Species) 
+
+#df.com.dummies <- cbind.data.frame(df.original, dummies)
+
+# Data frame com a variável categórica original e as dummies sem a categoria de referência para não haver colinearidade
+#df.com.dummies
+
+```
+
+Ou seja, usando a notação Z1 e Z2:
+
+```{r}
+
+#names(df.com.dummies)[c(6,7)] <- c("Z1","Z2")
+
+#df.com.dummies
+
+```
+
+Resumindo, no ajuste do MRLM a coluna `Species` é substituida pelas colunas $Z_1$ e $Z_2$.
+
+Na comunidade dos cientista de dados, este procedimento de criar variáveis *dummies* para lidar com variáveis predidoras do tipo categórica é conhecido por "*one-hot encoding*".
+
+## MRLM ajustado com a variável `Species`
+
+\
+
+O modelo a ser ajustado é da forma:
+
+$y_i = \beta_0 + \beta_1 (Sepal.Width) + \beta_2 z_{i1} + \beta_3 z_{i2} + \varepsilon_i=$
+
+$= \left\{\begin{align*}\beta_0 + \beta_1 . (Sepal.Width) + \varepsilon_i\ ,& \mbox{ se a } i-\mbox{ésima iris é da espécie “setosa”} \\ & \\ \beta_0 + \beta_2 + \beta_1 . (Sepal.Width) + \varepsilon_i \ ,& \mbox{ se a } i-\mbox{ésima iris é da espécie “versicolor”} \\ & \\  \beta_0 + \beta_3 + \beta_1 . (Sepal.Width) + \varepsilon_i \ ,& \mbox{ se a } i-\mbox{ésima iris é da espécie “virginica”} \end{align*}\right.$
+
+\
+
+Assim,
+
+> O coeficiente $\beta_0$ pode ser interpretado como o *comprimento médio da sépala* entre as íris da espécie "*setosa*";
+
+> $\beta_0 + \beta_2 \quad$ como o *comprimento médio da sépala* entre as íris da espécie "*versicolor*"; e
+
+> $\beta_0 + \beta_3 \quad$ como o *comprimento médio da sépala* entre as íris da espécie "*virginica*".
+
+Segue que,
+
+> O coeficiente $\beta_2$ é a diferença média do comprimento da sépala entre as espécies "*versicolor*" e "*setosa*"; e
+
+> $\beta_3 \quad$ é a diferença média do comprimento da sépala entre as espécies "*virginica*" e "*setosa*".
+
+De forma simplificada:
+
+> $\beta_0 \quad$ é o *comprimento médio da sépala* das íris da espécie "*setosa*";
+
+> $\beta_2 \quad$ é o acréscimo/decréscimo médio no comprimento da sépala ocasionanado por uma íris ser da espécie "*versicolor*" sobre o comprimento médio da íris "*setosa*";
+
+> $\beta_3 \quad$ é o acréscimo/decréscimo médio no comprimento da sépala ocasionanado por uma íris ser da espécie "*virginica*" sobre o comprimento médio da íris "*setosa*";
+
+\
+
+O modelo ajusatado fica:
+
+```{r}
+#modelo4 <- lm(Sepal.Length ~ Sepal.Width + Petal.Length + Species, data=dados)
+
+#summary(modelo4)
+
+```
+
+### Interpretações
+
+A partir dos resultados apresentados acima, chega-se a interpretações estranhas com relação aos coeficientes estimados da varável `Species`; talvez devido a variável `Petal.Length` estar bem associada com a variável `Species` (Ver as análises exploratórias na @sec-GGally (Gráficos de densidade do GGally)).
+
+## Modelo ajustado sem o `Petal.Length`
+
+Aqui ajustamos um modelo **sem a variável `Petal.Length`** por parecer estar bem associado com a variável `Species`. Vejamos:
+
+```{r}
+#modelo5 <- lm(Sepal.Length ~ Sepal.Width + Species, data=dados)
+
+#summary(modelo5)
+
+```
+
+### Interpretações
+
+Este último modelo ajustado apresenta interpretações práticas adequadas e mais realísticas porém apresenta um Adjusted R-squared: 0.7203 inferior ao do modelo 2, anteriormente selecionado e apresentado na @sec-modelo2selecionado. Lá observa-se um Adjusted R-squared: 0.838.
+
+## Alterando a Categoria de Referência
+
+Em algumas situações pode ser necessário **alterar a categoria de referência** da variável qualitativa/categórica para; por exemplo; se obter uma melhor interpretação prática do modelo ajustado. Para resolver esta questão, uma das duas seguintes funções do *R*; por exemplo; podem ser utilizadas:
+
+> 1)  `relevel`: do pacote nativo `stats` do R, que coloca a categoria de interesse como sendo a primeira, ou seja, a de referência;
+
+> 2)  `fct_relevel`: a qual é uma função do pacote `forcats` que generaliza a `stats::relevel`
+
+Vejamos alguns exemplos.
+
+```{r}
+# Verifica os levels originais:
+
+#levels(dados$Species)
+
+```
+
+> Os `levels` estão em ordem alfabética e por isso "setosa" é a primeira e; assim; ela fica sendo a categoria de referência.
+
+### "virginica" como categoria de referência
+
+Se desejarmos que "virginica" seja a categoria de referência, usando a função \`relevel\`\` deve-se fazer:
+
+```{r}
+#dados$Species <- relevel(dados$Species, "virginica")
+
+# Verifica nova categoria de referência
+#levels(dados$Species)
+
+```
+
+\
+
+Ajustando o modelo em função desta nova categoria de referência **nada muda** em termos de **valores preditos** mas **apenas os valores** e consequente **interpretações dos coeficientes**, vejamos:
+
+```{r}
+# Modelo igual ao 5 com categoria de referência sendo
+# "virginica"
+
+#modelo6 <- lm(Sepal.Length ~ Sepal.Width + Species, data=dados)
+
+#summary(modelo6)
+
+```
+
+**Comentários/Observações**
+
+Perceba que pelas análises exploratórias, observou-se evidência de que os maiores comprimentos de sépalas (`Sepal.Length`) acontecem com maior frequência entre a espécie "virginica", seguido por comprimentos medianos entre a espécie "versicolor" e os menores comprimentos sendo mais frequentes entre a espécie "setosa" e é o que se observa quanto aos coeficientes estimados no modelo ajustado acima. Veja:
+
+> 1)  O coeficiente estimado para a categoria "setosa" é $-1.94682$, indicando que sendo uma iris do tipo "setosa", o comprimento médio da sépala é menor em $-1.94682$ cm quando comparado com o comprimento médio de uma iris do tipo "virginica" (já havia evidência de que os comprimentos das sépalas de "virginica" tendem a serem bem maiores do que das sépalas da "setosa");
+
+> 2)  O coeficiente estimado para a categoria "versicolor" é $-0.48807$, indicando que sendo uma iris do tipo "versicolor", o comprimento médio da sépala é menor em $-0.48807$ cm quando comparado com o comprimento médio de uma iris do tipo "virginica" (já havia evidência de que os comprimentos das sépalas de "virginica" tendem a serem um pouco maiores do que da "versicolor")
+
+Tais interpretações são análogamente obtidas ao se observar os coeficientes padronizados. Veja abaixo.
+
+```{r}
+# Coeficientes padronizados
+
+#lm.beta::lm.beta(modelo6)
+
+```
+
+### "virginica" ao meio do level e "versicolor" como categoria de referência
+
+Se desejarmos que "versicolor" seja a categoria de referência, usando a função `fct_relevel` do pacote `forcats` deve-se fazer:
+
+( Veja vários exemplos em: <https://forcats.tidyverse.org/reference/fct_relevel.html> )
+
+\
+
+```{r}
+#library(forcats)
+
+#dados$Species <- fct_relevel(dados$Species, "versicolor", "virginica", "setosa")
+
+# Verifica nova categoria de referência
+#levels(dados$Species)
+
+```
+
+\
+
+Ajustando o modelo em função desta nova categoria de referência **nada muda** em termos de **valores preditos** mas **apenas os valores** e consequente **interpretações dos coeficientes**, vejamos:
+
+```{r}
+# Modelo igual ao 5 e 6 com categoria de referência sendo
+# "versicolor"
+
+#modelo7 <- lm(Sepal.Length ~ Sepal.Width + Species, data=dados)
+
+#summary(modelo7)
+
+```
+
+**Comentários/Observações**
+
+Perceba que:
+
+> 1)  O comprimento médio da sépala quando a iris é da espécie "virginica" aumenta; em $0,48807$; comparada ao comprimento médio da sépala da espécie "versicolor"; o que era esperado conforme análises anteriores.
+
+> 2)  Por outro lado, o comprimento médio da sépala quando a iris é da espécie "setosa" diminui; em $-1,45874$; comparada à espécie "versicolor" pois íris "versicolor"; como já evidenciado anteriormente; tende a ter medidas maiores do que a da "setosa".
+
+Tais interpretações são análogamente obtidas ao se observar os coeficientes padronizados. Veja abaixo.
+
+```{r}
+# Coeficientes padronizados
+
+#lm.beta::lm.beta(modelo7)
+
+```
+
+# Conclusão
+
+É importantíssimo que no relatório estatístico haja esta seção para descrever em linhas gerais os resultados obtidos, especialmente em termos de resultados práticos e importantes para a resolução de um problema acadêmico e ou para a revelação(ões) de *insights* para um problema de negócio.
