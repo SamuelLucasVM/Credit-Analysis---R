@@ -38,6 +38,7 @@ glimpse(Credit)
 
 #2. Descreva a base de dados indicando o número de observações e as variáveis com os
 #names, seus signicados e as correspondentes unidades de medida;
+# Use help para descrever, depois traduz
 ```
 
 (TODO) Visualizando rapidamente a estrutura da base de dados, observamos as seguintes variáveis:
@@ -83,6 +84,8 @@ ggsave("Grafico_dispersao_iris.jpeg")
 1)  A variável dependente `Balance`:
 
 <!-- -->
+
+(TODO ajeitar os intervalos)
 
 i.  não apresenta correlação linear significante com a variável `Age` (r= 0.002, p \> 1);
 
@@ -145,18 +148,6 @@ library(car)
 modelo1 <- lm(Balance ~ ., data = dadosNum)
 
 vif(modelo1)
-
-#modelo2 <- update(modelo1, ~ . -Income)
-
-#vif(modelo2)
-
-#modelo3 <- update(modelo1, ~ . -Limit)
-
-#vif(modelo3)
-
-modelo4 <- update(modelo1, ~ . -Rating)
-
-#vif(modelo4)
 ```
 
 Como podemos ver, são as variáveis `Limit` e `Rating` apresentam vif maior que 10 e são exatamente elas que também apresentaram forte correlação positiva.
@@ -173,57 +164,55 @@ Ao observar o ajuste do primeiro modelo com o intuito de prever o `Gasto médio 
 
 2)  O erro padrão da variável `Education` é significativamente maior que os erros padrões das demais variáveis preditoras;
 
-3)  A variável `Income`
+3)  A variável `Income` apresenta efeito negativo ao `Balance`, talvez pelo fato de que se há um alto saldo entrando na conta do usuário, não há necessidade de se usar o crédito disponível.
 
-Resumindo, diante das análises prévias e constatações a partir dos resultados do modelo, identificamos que existe o problema de multicolinearidade de modo que as variáveis preditoras `Petal.Length` e `Petal.Width` não conseguem explicar a variável resposta `Sepal.Length` de forma uníssona, pois as mesmas compartilham da mesma informação muito fortemente de modo que elas competem para juntas explicarem/predizerem a variável resposta `Sepal.Length`, compromentendo assim, a confiabilidade dos coeficientes estimados e dos valores p.
+4)  A variável `Age` apresenta efeito negativo ao `Balance`, logo quanto maior a idade, menor o `gasto médio em crédito`.
+
+Resumindo, diante das análises prévias e constatações a partir dos resultados do modelo, identificamos que existe o problema de multicolinearidade de modo que as variáveis preditoras `Limit` e `Rating` não conseguem explicar a variável resposta `Balance` de forma uníssona, pois as mesmas compartilham da mesma informação muito fortemente de modo que elas competem para juntas explicarem/predizerem a variável resposta `Balance`, compromentendo assim, a confiabilidade dos coeficientes estimados e dos valores p.
 
 ## Existe multicolinearidade, e agora?
 
--   Se você detectar multicolinearidade, o próximo passo é decidir se você precisa resolvê-la de alguma forma.
-
--   Dependendo do objetivo da sua análise de regressão, você pode não precisar realmente resolver a multicolinearidade.
-
--   Para uma orientação sobre este tema com mais detalhes, recomendamos a leitura de um Guia disponível em:
-
-<https://www.statology.org/multicollinearity-regression/>
-
-ou
-
-[Quando você pode ignorar a multicolinearidade com segurança?](https://statisticalhorizons.com/multicollinearity/)
+Na presente análise, seguiremos ajustando dois modelos excluindo do modelo inicial e completo 1, cada uma das variáveis explicativas em separado (`Limit` e `Rating`), mantendo a outra no modelo inicial. Vejamos:
 
 \
 
-Na presente análise, seguiremos ajustando dois modelos excluindo do modelo inicial e completo 1, cada uma das variáveis explicativas em separado (`Petal.Length` e `Petal.Width`), mantendo a outra no modelo inicial. Vejamos:
-
-\
-
-## Modelo sem `Petal.Width` (modelo2) {#sec-modelo2selecionado}
+## Modelo sem `Limit` (modelo2) {#sec-modelo2selecionado}
 
 ```{r}
-#modelo2 <- update(modelo1, ~ . -Petal.Width)
+modelo2 <- update(modelo1, ~ . -Limit)
 
-#summary(modelo2)
-
+summary(modelo2)
 ```
 
-> Observa-se que; para este modelo ajustado; todas as variáveis independentes são estatísticamente significativas com a adequação de ajuste do modelo aos dados igual a 83,8% (Adjusted R-squared: 0.838).
+> Observa-se que; para este modelo ajustado; As variáveis independentes `Income`, `Rating` e `Age` são estatísticamente significativas com a adequação de ajuste do modelo aos dados igual a 87,5% (Adjusted R-squared: 0.8749).
+
+### Vif para o modelo
+
+```{r}
+vif(modelo2)
+```
+
+> Podemos ver que não há problema de correlação linear entre as variáveis independentes, visto que o vif deu abaixo de 10.
 
 \
 
-## Modelo sem `Petal.Length` (modelo3)
+## Modelo sem `Rating` (modelo3)
 
 ```{r}
-#modelo3 <- update(modelo1, ~ . -Petal.Length)
+modelo3 <- update(modelo1, ~ . -Rating)
 
-#summary(modelo3)
-
+summary(modelo3)
 ```
 
-> Para este modelo e de maneira análoga ao modelo anterior; todas as variáveis independentes são estatísticamente significativas. Por outro lado, a adequação de ajuste do modelo aos dados igual a 70,33% (Adjusted R-squared: 0.7033) é inferior ao modelo anterior.
+> Para este modelo e de maneira análoga ao modelo anterior; As variáveis independentes `Income`, `Limit`, `Cards` e `Age` são estatísticamente significativas. Com a adequação de ajuste do modelo aos dados igual a 87,5% (Adjusted R-squared: 0.8746), praticamente o mesmo do anterior, porém com mais variáveis explicativas.
 
-Podemos rever a análise de correlação e observar que a variável `Petal.Width` apresenta correlação linear um pouco menor com a variável resposta `Sepal.Length` quando comparada com a variável `Petal.Length`.
+### Vif para o modelo
 
-Seguiremos, para efeito didático com a exposição de formas de seleção de modelos.
+```{r}
+vif(modelo2)
+```
+
+> Podemos ver que não há problema de correlação linear entre as variáveis independentes, visto que o vif deu abaixo de 10.
 
 \
 
@@ -232,61 +221,44 @@ Seguiremos, para efeito didático com a exposição de formas de seleção de mo
 ## Medida AIC
 
 ```{r}
-#AIC(modelo2)
+AIC(modelo2)
 
-#AIC(modelo3)
+AIC(modelo3)
 
 ```
 
-> Comparando-se os dois modelos com a exclusão; em separado; das duas variáveis que apresentam multicolinearidade; observa-se que o modelo com o menor valor de AIC é o modelo 2 e; portanto; é o preferível. Além disso, como regra prática, observa-se uma diferença entre os valores superior a 10 para que haja um indício significativo de real diferença.
+> Comparando-se os dois modelos com a exclusão; em separado; das duas variáveis que apresentam multicolinearidade; observa-se que o modelo com o menor valor de AIC é o modelo 2. Mas, como regra prática, não observa-se uma diferença entre os valores superior a 10 para que haja um indício significativo de real diferença, então podemos escolher o modelo 2 ou o 3.
 
 ## Medida BIC
 
 ```{r}
-#BIC(modelo2)
+BIC(modelo2)
 
-#BIC(modelo3)
+BIC(modelo3)
 
 ```
 
-> De maneira análoga à interpretação da medida AIC, interpreta-se a medida BIC e; conforme pode ser visto; o modelo com o menor valor de BIC é o modelo 2 e; portanto; é o preferível. Além disso, como regra prática, observa-se uma diferença entre os valores superior a 10 para que haja um indício significativo de real diferença.
+> De maneira análoga à interpretação da medida AIC, interpreta-se a medida BIC e; conforme pode ser visto; o modelo com o menor valor de BIC é o modelo 2. Mas, como regra prática, não observa-se uma diferença entre os valores superior a 10 para que haja um indício significativo de real diferença, então podemos escolher o modelo 2 ou o 3.
 
 ## Comparação de modelos encaixados (ANOVA)
 
-Uma análise de variância (ANOVA) com o intuito de **selecionar um modelo (variáveis)** é possível ser utilizada quando se deseja comparar **modelos aninhados**; ou seja; quando um ou mais modelo é obtido como sub-conjunto do(s) outro(s). Vejamos como se aplica na presente análise.
+\
+
+```{r}
+anova(modelo2, modelo1)
+
+```
+
+> Observa-se pelo teste F que **deve-se rejeitar a hipótese nula** de que o modelo completo (com a variável `Limit` inclusa) explica **tão bem quanto o sub-modelo sem a variável** `Limit` (p \< 0,05). Em outras palavras, esta variável é estatísticamente significante para a regressão (ainda que haja problema de multicolinearidade quando na presença da variável `Rating`).
 
 \
 
 ```{r}
-#anova(modelo2, modelo1)
+anova(modelo3, modelo1)
 
 ```
 
-> Observa-se pelo teste F que **deve-se rejeitar a hipótese nula** de que o modelo completo (com a variável `Petal.Width` inclusa) explica **tão bem quanto o sub-modelo sem a variável** `Petal.Width` (p \< 0,001). Em outras palavras, esta variável é estatísticamente significante para a regressão (ainda que haja problema de multicolinearidade quando na presença da variável `Petal.Length`).
-
-\
-
-```{r}
-#anova(modelo3, modelo1)
-
-```
-
-> Ao realizar a ANOVA para verificar a significância da variável `Petal.Length` para regressão, observa-se resultado análogo ao da variável `Petal.Width`; ou seja; a variável `Petal.Length` é estatísticamente significante para a regressão (ainda que haja problema de multicolinearidade quando na presença da variável `Petal.Width`).
-
-\
-
-# Seleção automática de modelo pelo AIC
-
-```{r}
-#step(modelo1)
-
-#step(modelo1, direction = "backward")
-
-#step(modelo1, direction = "forward")
-
-#step(modelo1, direction = "both")
-
-```
+> Ao realizar a ANOVA para verificar a significância da variável `Rating` para regressão, observa-se resultado ainda mais significativo do que da variável `Limit`; ou seja; a variável `Rating` é mais estatísticamente significante para a regressão (ainda que haja problema de multicolinearidade quando na presença da variável `Limit`).
 
 \
 
@@ -295,7 +267,7 @@ Uma análise de variância (ANOVA) com o intuito de **selecionar um modelo (vari
 Diante das análises realizadas até o momento e tendo como objetivos não apenas realizar previsões mas também interpretar de forma prática a relação entre as variáveis; o modelo a ser adotado e a ser **verificado o atendimento dos pressuposto** de um MRLM é o **modelo 2**. Vejamos:
 
 ```{r}
-#plot(modelo2)
+plot(modelo2)
 
 ```
 
