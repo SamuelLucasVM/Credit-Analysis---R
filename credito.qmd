@@ -44,6 +44,16 @@ glimpse(Credit)
 (TODO) Visualizando rapidamente a estrutura da base de dados, observamos as seguintes variáveis:
 
 -   `Var.Name`: some description;
+-   `Credit.Income`: Quantitativa Continua, Salário do usuário em milhares de dolares;
+-   `Credit.Limit`: Quantitativa Discreta, Llimite do cartão de crédito do usuário;
+-   `Credit.Rating`: Quantitativa Discreta, Nível de crédito do usuário;
+-   `Credit.Cards`: Quantitativa Discreta, Número de cartões de crédito;
+-   `Credit.Age`: Quantitativa Discreta, Idade do usuário;
+-   `Credit.Education`: Quantitativa Ordinal, Nível de educação do usuário em anos;
+-   `Credit.Student`: Qualitativa Nominal, Se o usuário foi ou não um estudante;
+-   `Credit.Married`: Qualitativa Nominal, Se o usuário já se casou;
+-   `Credit.Ethnicity`: Qualitativa Nominal, Indicador da etnia autointitulada pelo usuário;
+-   `Credit.Balance`: Variavel resposta de estudo, Qual o balanço médio do cartão de crédito do usuário;
 
 ## Análise exploratória dos dados
 
