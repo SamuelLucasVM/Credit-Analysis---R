@@ -97,17 +97,17 @@ ggsave("Grafico_dispersao_iris.jpeg")
 
 (TODO ajeitar os intervalos)
 
-i.  não apresenta correlação linear significante com a variável `Age` (r= 0.002, p \> 1);
+i.  não apresenta correlação linear significante com a variável `Age` (r= 0.002, 0.1 \< p \< 1);
 
-ii. não apresenta correlação linear significante com a variável `Education` (r= -0.008, p \< 1);
+ii. não apresenta correlação linear significante com a variável `Education` (r= -0.008, 0.1 \< p \< 1);
 
-iii. apresenta correlação linear baixa com a variável `Cards` (r= 0.086, p \< 0.05);
+iii. apresenta correlação linear baixa com a variável `Cards` (r= 0.086, 0.05 \< p \< 0.1);
 
-iv. apresenta correlação linear significante com a variável `Income` (r= 0.464, p \< 0);
+iv. apresenta correlação linear significante com a variável `Income` (r= 0.464, 0 \< p \< 0.01);
 
-v. apresenta correlação linear significante com a variável `Limit` (r= 0.862, p \< 0);
+v. apresenta correlação linear significante com a variável `Limit` (r= 0.862, 0 \< p \< 0.01);
 
-vi. apresenta correlação linear significante com a variável `Rating` (r= 0.864, p \< 0);
+vi. apresenta correlação linear significante com a variável `Rating` (r= 0.864, 0 \< p \< 0.01);
 
 <!-- -->
 
