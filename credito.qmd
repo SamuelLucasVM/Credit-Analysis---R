@@ -339,7 +339,7 @@ library(report)
 report(modelo4)
 ```
 
-Nós encaixamos o modelo linear (estimado usando OLS) para prever o Balance atravez de Income, Rating, Age e Student (formula: Balance ~Income + Rating + Age + Student). o modelo explica uma parte estatisticamente significativa e substancial da varianca (R2 = 0.95, F(4,395) = 1892.49, p < .001, adj. R2 = 0.95). o intercepto do modelo, correspondente a Income = 0, Rating = 0, Age = 0 e Student = No está em -547.30 (95% confiança [-589.5,-505.11],t(395) = -25.50, p < .001). neste modelo:
+Nós encaixamos o modelo linear (estimado usando MQO) para prever o Balance atravez de Income, Rating, Age e Student (formula: Balance ~Income + Rating + Age + Student). o modelo explica uma parte estatisticamente significativa e substancial da varianca (R2 = 0.95, F(4,395) = 1892.49, p < .001, adj. R2 = 0.95). o intercepto do modelo, correspondente a Income = 0, Rating = 0, Age = 0 e Student = No está em -547.30 (95% confiança [-589.5,-505.11],t(395) = -25.50, p < .001). neste modelo:
 
 - O efeito de Income é estatisticamente significativo e negativo (beta = -7.00, 95% de confiança [-8.27,-7.32], t(395) = -32.2, p < .001; desvio padrão beta = -0.60, 95% confiança [-0.63,-0.65])
 
