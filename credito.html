@@ -938,7 +938,14 @@ version of the dataset. 95% Confidence Intervals (CIs) and p-values were
 computed using a Wald t-distribution approximation.</code></pre>
 </div>
 </div>
-<p>(TODO - Traduzir e dar mais contexto)</p>
+<p>Nós encaixamos o modelo linear (estimado usando OLS) para prever o Balance atravez de Income, Rating, Age e Student (formula: Balance ~Income + Rating + Age + Student). o modelo explica uma parte estatisticamente significativa e substancial da varianca (R2 = 0.95, F(4,395) = 1892.49, p &lt; .001, adj. R2 = 0.95). o intercepto do modelo, correspondente a Income = 0, Rating = 0, Age = 0 e Student = No está em -547.30 (95% confiança [-589.5,-505.11],t(395) = -25.50, p &lt; .001). neste modelo:</p>
+<ul>
+<li><p>O efeito de Income é estatisticamente significativo e negativo (beta = -7.00, 95% de confiança [-8.27,-7.32], t(395) = -32.2, p &lt; .001; desvio padrão beta = -0.60, 95% confiança [-0.63,-0.65])</p></li>
+<li><p>O efeito de Rating é estatisticamente significativo e positivo (beta = 3.98, 95% de confiança [3.87,4.09], t(395) = 72.93, p &lt; .001; desvio padrão beta = 1.34, 95% confiança [1.30,1.38])</p></li>
+<li><p>O efeito de Age é estatisticamente significativo e negativo (beta = -0.62, 95% de confiança [-1.22,-0.03], t(395) = -2.05, p &lt; .001; desvio padrão beta = -0.02, 95% confiança [-0.05,-9.90e-04])</p></li>
+<li><p>O efeito de Student para o sim é estatisticamente significativo e positivo (beta = 417.51, 95% de confiança [383.75,451.26], t(395) = 24.31, p &lt; .001; desvio padrão beta = 0.91, 95% confiança [0.83,0.98])</p></li>
+</ul>
+<p>Os parametros padronizados foram obtidos ao encaixar o modelo a uma versão padronizada da base de dados. com um intervalo de confiança de 95% e p-valor foram computados utilizando uma aprocimação da distribuição-t Wald.</p>
 </section>
 <section id="previsões" class="level1" data-number="8">
 <h1 data-number="8"><span class="header-section-number">8</span> Previsões</h1>
@@ -968,7 +975,7 @@ computed using a Wald t-distribution approximation.</code></pre>
  246.842  478.095 1118.748 </code></pre>
 </div>
 </div>
-<p>Os valores obtidos representam previsões pontuais dos dados das varíaveis preditoras selecionadas, porém isso não serve como medida de incerteza.</p>
+<p>Os valores obtidos representam previsões pontuais dos dados das varíaveis preditoras selecionadas.</p>
 </section>
 <section id="intervalo-de-confiança-1" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="intervalo-de-confiança-1"><span class="header-section-number">8.2</span> Intervalo de Confiança</h2>
@@ -982,7 +989,7 @@ computed using a Wald t-distribution approximation.</code></pre>
 3 1118.748 1084.9249 1152.5710</code></pre>
 </div>
 </div>
-<p>O intervalo de confiança serve como medida de incerteza, em relação a média esperada. Com base nos dados obtidos espera-se que para a <strong>primeira observação (1)</strong> a média esteja entre <em>231.9412</em> e <em>261.742</em>, para a <strong>segunda observação (2)</strong> espera-se uma média entre <em>467.4312</em> e <em>488.7587</em>, enquanto para a <strong>terceira observação (3)</strong> a média deve estar entre <em>1084.9249</em> e <em>1152.5710</em>.</p>
+<p>Com base nos dados obtidos espera-se que para a <strong>primeira observação (1)</strong> a média esteja entre <em>231.9412</em> e <em>261.742</em>, para a <strong>segunda observação (2)</strong> espera-se uma média entre <em>467.4312</em> e <em>488.7587</em>, enquanto para a <strong>terceira observação (3)</strong> a média deve estar entre <em>1084.9249</em> e <em>1152.5710</em>.</p>
 </section>
 <section id="intervalo-de-prediçãoprevisão" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="intervalo-de-prediçãoprevisão"><span class="header-section-number">8.3</span> Intervalo de Predição/Previsão</h2>
@@ -1000,8 +1007,8 @@ computed using a Wald t-distribution approximation.</code></pre>
 <p>Observa-se que o intervalo de predição é mais amplo do que o intervalo de confiança, pois considera a incerteza em torno de um valor individual não observado na base de dados. De acordo com os dados obtidos espera-se que um novo valor esteja entre <em>43.98951</em> e <em>449.6944</em> para a <strong>primeira observação (1)</strong>, esteja entre <em>275.50965</em> e <em>680.6803</em> para a <strong>segunda observação (2)</strong> e para a <strong>terceira (3)</strong>, é esperado que um novo valor esteja entre <em>913.63560</em> e <em>1323.8604</em></p>
 <p><strong>Interpretações</strong>:</p>
 <ol type="i">
-<li><p><em>Intervalo de Confiança:</em> A incerteza em torno do valor médio esperado é relativamente menor, com intervalos mais estreitos, especialmente para a segunda observação. Isso sugere que o modelo tem boa precisão ao estimar a média da variável resposta para as combinações de preditoras fornecidas.</p></li>
-<li><p><em>Intervalo de Predição:</em> Reflete a variabilidade esperada para um novo valor individual. Por ser mais amplo, indica que os valores individuais podem ter uma dispersão considerável ao redor das predições ajustadas. Isso é esperado, pois o intervalo de predição leva em conta a variabilidade dos dados em relação ao valor médio.</p></li>
+<li><p><em>Intervalo de Confiança:</em> A incerteza em torno do valor médio esperado é relativamente menor, com intervalos mais estreitos. Isso sugere que o modelo tem boa precisão ao estimar a média da variável resposta para as combinações de preditoras fornecidas.</p></li>
+<li><p><em>Intervalo de Predição/Previsão:</em> Reflete a variabilidade esperada para um novo valor individual. Por ser mais amplo, indica que os valores individuais podem ter uma dispersão considerável ao redor das predições ajustadas. Isso é esperado, pois o intervalo de predição leva em conta a variabilidade dos dados em relação ao valor médio.</p></li>
 </ol>
 <p><br>
 </p>

@@ -374,7 +374,7 @@ predict(modelo4, novas.preditoras)
 
 ```
 
-Os valores obtidos representam previsões pontuais dos dados das varíaveis preditoras selecionadas, porém isso não serve como medida de incerteza.
+Os valores obtidos representam previsões pontuais dos dados das varíaveis preditoras selecionadas.
 
 ## Intervalo de Confiança
 
@@ -385,7 +385,7 @@ predict(modelo4, novas.preditoras,
 
 ```
 
-O intervalo de confiança serve como medida de incerteza, em relação a média esperada. Com base nos dados obtidos espera-se que para a **primeira observação (1)** a média esteja entre *231.9412* e *261.742*, para a **segunda observação (2)** espera-se uma média entre *467.4312* e  *488.7587*, enquanto para a **terceira observação (3)** a média deve estar entre *1084.9249* e *1152.5710*.
+Com base nos dados obtidos espera-se que para a **primeira observação (1)** a média esteja entre *231.9412* e *261.742*, para a **segunda observação (2)** espera-se uma média entre *467.4312* e  *488.7587*, enquanto para a **terceira observação (3)** a média deve estar entre *1084.9249* e *1152.5710*.
 
 ## Intervalo de Predição/Previsão
 
@@ -401,9 +401,9 @@ Observa-se que o intervalo de predição é mais amplo do que o intervalo de con
 
 **Interpretações**:
 
-i. *Intervalo de Confiança:* A incerteza em torno do valor médio esperado é relativamente menor, com intervalos mais estreitos, especialmente para a segunda observação. Isso sugere que o modelo tem boa precisão ao estimar a média da variável resposta para as combinações de preditoras fornecidas.
+i. *Intervalo de Confiança:* A incerteza em torno do valor médio esperado é relativamente menor, com intervalos mais estreitos. Isso sugere que o modelo tem boa precisão ao estimar a média da variável resposta para as combinações de preditoras fornecidas.
 
-ii. *Intervalo de Predição:* Reflete a variabilidade esperada para um novo valor individual. Por ser mais amplo, indica que os valores individuais podem ter uma dispersão considerável ao redor das predições ajustadas. Isso é esperado, pois o intervalo de predição leva em conta a variabilidade dos dados em relação ao valor médio.
+ii. *Intervalo de Predição/Previsão:* Reflete a variabilidade esperada para um novo valor individual. Por ser mais amplo, indica que os valores individuais podem ter uma dispersão considerável ao redor das predições ajustadas. Isso é esperado, pois o intervalo de predição leva em conta a variabilidade dos dados em relação ao valor médio.
 
 \
 
