@@ -302,14 +302,14 @@ BIC(modelo4)
 anova(modelo4, modelo3)
 ```
 
-TODO (Comentario do resultado da anova)
+É notável que há um p-valor insignificante ao se comparar o modelo 4 e o modelo 3 com a ANOVA, indicando que a remoção das variáveis não foi significativa.
 
 
 ```{r}
 summary(modelo4)
 ```
 
-Podemos perceber que o R-Ajustado para o modelo 3 e para o modelo 4 deram iguais. Logo, temos que os dois modelos explicam a mesma coisa, então, selecionamos o com menos variáveis (modelo4).
+Podemos perceber que o R-Ajustado para o modelo 3 e para o modelo 4 deram iguais. Logo, também com os resultados da ANOVA,temos que os dois modelos explicam a mesma coisa, ou seja, as variáveis removidas realmente eram insignificantes. Então, selecionamos o com menos variáveis (modelo4).
 
 # Modelo selecionado (modelo4)
 
@@ -399,4 +399,4 @@ TODO
 
 # Conclusão
 
-É importantíssimo que no relatório estatístico haja esta seção para descrever em linhas gerais os resultados obtidos, especialmente em termos de resultados práticos e importantes para a resolução de um problema acadêmico e ou para a revelação(ões) de *insights* para um problema de negócio.
+(TODO)

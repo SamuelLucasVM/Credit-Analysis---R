@@ -828,7 +828,7 @@ Model 2: Balance ~ Income + Rating + Cards + Age + Education + Gender +
 2    389 4117780  6     64819 1.0206 0.4113</code></pre>
 </div>
 </div>
-<p>TODO (Comentario do resultado da anova)</p>
+<p>É notável que há um p-valor insignificante ao se comparar o modelo 4 e o modelo 3 com a ANOVA, indicando que a remoção das variáveis não foi significativa.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo4)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -855,7 +855,7 @@ Multiple R-squared:  0.9504,    Adjusted R-squared:  0.9499
 F-statistic:  1892 on 4 and 395 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
-<p>Podemos perceber que o R-Ajustado para o modelo 3 e para o modelo 4 deram iguais. Logo, temos que os dois modelos explicam a mesma coisa, então, selecionamos o com menos variáveis (modelo4).</p>
+<p>Podemos perceber que o R-Ajustado para o modelo 3 e para o modelo 4 deram iguais. Logo, também com os resultados da ANOVA,temos que os dois modelos explicam a mesma coisa, ou seja, as variáveis removidas realmente eram insignificantes. Então, selecionamos o com menos variáveis (modelo4).</p>
 </section>
 </section>
 <section id="modelo-selecionado-modelo4" class="level1" data-number="6">
@@ -897,9 +897,9 @@ F-statistic:  1892 on 4 and 395 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Análises análogas à Regressão Linear Simples.</p>
 <ul>
 <li>residual vs fitted: Foi percebido nos gráficos de residuos e altos indices da não linearidade dos dados além de suspeita de heterocedasticidade. Então, para poder melhorar a predição para além do que foi feito nessa análise, seria necessário a utilização de modelos não lineares e mais robustos.</li>
-<li>QQ plot: o gráfico apresenta “enviesamento para a direita” que mais uma vez traz indicios de não linearidade</li>
-<li>Scale-location: a direção negativa do gráfico dos valores adaptados pelo modelo reafirma as suspeitas de homocedasticidade, além disso os pontos não aparentam estarem espalhados aleatóriamente no entorno da linha do modelo.</li>
-<li>residual vs leverage: nenhum ponto dos cados está presente depois da distancia de cook indicando que nenhum ponto é um outlier influente o suficiente para alterar sozinho de forma significativa o resultado do modelo. …</li>
+<li>QQ plot: o gráfico não apresenta nem enviesamento para a direita nem enviesamento para a esqueda porém possui indicios de caudas pesadas, no geral entretanto as suspeitas de não linearidade dminuiram.</li>
+<li>Scale-location: a direção negativa do gráfico dos valores adaptados pelo modelo reafirma as suspeitas de heterocedasticidade, além disso os pontos não aparentam estarem espalhados aleatóriamente no entorno da linha do modelo.</li>
+<li>residual vs leverage: nenhum ponto dos dados está presente depois da distancia de cook indicando que nenhum ponto é um outlier influente o suficiente para alterar sozinho de forma significativa o resultado do modelo. …</li>
 </ul>
 </section>
 </section>
@@ -1006,7 +1006,7 @@ computed using a Wald t-distribution approximation.</code></pre>
 </section>
 <section id="conclusão" class="level1" data-number="9">
 <h1 data-number="9"><span class="header-section-number">9</span> Conclusão</h1>
-<p>É importantíssimo que no relatório estatístico haja esta seção para descrever em linhas gerais os resultados obtidos, especialmente em termos de resultados práticos e importantes para a resolução de um problema acadêmico e ou para a revelação(ões) de <em>insights</em> para um problema de negócio.</p>
+<p>(TODO)</p>
 
 </section>
 
