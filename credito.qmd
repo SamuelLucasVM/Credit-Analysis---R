@@ -302,13 +302,13 @@ BIC(modelo4)
 anova(modelo4, modelo3)
 ```
 
-TODO (Comentario do resultado da anova)
+É notável que há um p-valor insignificante ao se comparar o modelo 4 e o modelo 3 com a ANOVA, indicando que a remoção das variáveis não foi significativa.
 
 ```{r}
 summary(modelo4)
 ```
 
-Podemos perceber que o R-Ajustado para o modelo 3 e para o modelo 4 deram iguais. Logo, temos que os dois modelos explicam a mesma coisa, então, selecionamos o com menos variáveis (modelo4).
+Podemos perceber que o R-Ajustado para o modelo 3 e para o modelo 4 deram iguais. Logo, também com os resultados da ANOVA,temos que os dois modelos explicam a mesma coisa, ou seja, as variáveis removidas realmente eram insignificantes. Então, selecionamos o com menos variáveis (modelo4).
 
 # Modelo selecionado (modelo4)
 
@@ -339,7 +339,17 @@ library(report)
 report(modelo4)
 ```
 
-(TODO - Traduzir e dar mais contexto)
+Nós encaixamos o modelo linear (estimado usando OLS) para prever o Balance atravez de Income, Rating, Age e Student (formula: Balance ~Income + Rating + Age + Student). o modelo explica uma parte estatisticamente significativa e substancial da varianca (R2 = 0.95, F(4,395) = 1892.49, p < .001, adj. R2 = 0.95). o intercepto do modelo, correspondente a Income = 0, Rating = 0, Age = 0 e Student = No está em -547.30 (95% confiança [-589.5,-505.11],t(395) = -25.50, p < .001). neste modelo:
+
+- O efeito de Income é estatisticamente significativo e negativo (beta = -7.00, 95% de confiança [-8.27,-7.32], t(395) = -32.2, p < .001; desvio padrão beta = -0.60, 95% confiança [-0.63,-0.65])
+
+- O efeito de Rating é estatisticamente significativo e positivo (beta = 3.98, 95% de confiança [3.87,4.09], t(395) = 72.93, p < .001; desvio padrão beta = 1.34, 95% confiança [1.30,1.38])
+
+- O efeito de Age é estatisticamente significativo e negativo (beta = -0.62, 95% de confiança [-1.22,-0.03], t(395) = -2.05, p < .001; desvio padrão beta = -0.02, 95% confiança [-0.05,-9.90e-04])
+
+- O efeito de Student para o sim é estatisticamente significativo e positivo (beta = 417.51, 95% de confiança [383.75,451.26], t(395) = 24.31, p < .001; desvio padrão beta = 0.91, 95% confiança [0.83,0.98])
+
+Os parametros padronizados foram obtidos ao encaixar o modelo a uma versão padronizada da base de dados. com um intervalo de confiança de 95% e p-valor foram computados utilizando uma aprocimação da distribuição-t Wald.
 
 # Previsões
 
@@ -399,4 +409,4 @@ ii. *Intervalo de Predição:* Reflete a variabilidade esperada para um novo val
 
 # Conclusão
 
-É importantíssimo que no relatório estatístico haja esta seção para descrever em linhas gerais os resultados obtidos, especialmente em termos de resultados práticos e importantes para a resolução de um problema acadêmico e ou para a revelação(ões) de *insights* para um problema de negócio.
+(TODO)
