@@ -92,7 +92,6 @@ ggsave("Grafico_dispersao_iris.jpeg")
 
 <!-- -->
 
-
 i.  não apresenta correlação linear significante com a variável `Age` (r= 0.002, 0.1 \< p \< 1);
 
 ii. não apresenta correlação linear significante com a variável `Education` (r= -0.008, 0.1 \< p \< 1);
@@ -101,7 +100,7 @@ iii. apresenta correlação linear baixa com a variável `Cards` (r= 0.086, 0.05
 
 iv. apresenta correlação linear significante com a variável `Income` (r= 0.464, 0 \< p \< 0.001);
 
-v. apresenta correlação linear significante com a variável `Limit` (r= 0.862, 0 \< p \< 0.001);
+v.  apresenta correlação linear significante com a variável `Limit` (r= 0.862, 0 \< p \< 0.001);
 
 vi. apresenta correlação linear significante com a variável `Rating` (r= 0.864, 0 \< p \< 0.001);
 
@@ -137,11 +136,11 @@ Como esta correlação, em valor absoluto não é superior a 0.9 (ou 0.8) não h
 
 <!-- -->
 
-4) A variável independente `Rating`:
+4)  A variável independente `Rating`:
 
 <!-- -->
 
-i. apresenta correlação linear significativa com a variável *independente* `Age` (r=0.103, p\< 0.01)
+i.  apresenta correlação linear significativa com a variável *independente* `Age` (r=0.103, p\< 0.01)
 
 Como esta correlação, em valor absoluto não é superior a 0.9 (ou 0.8) não há indício para um posterior problema de multicolinearidade.
 
@@ -163,6 +162,7 @@ Como podemos ver, são as variáveis `Limit` e `Rating` apresentam vif maior que
 ```{r}
 summary(modelo1)
 ```
+
 \
 Ao observar o ajuste do primeiro modelo com o intuito de prever o `Gasto médio em crédito` (`Balance`), tem-se que as variáveis `Income`, `Limit`, `Rating` e `Age` explicam de forma estatísticamente significativa e com um bom ajuste indicado pelo Coeficiente de determinação ajustado (Adjusted R-squared: 0.8764). Entretanto, dois resultados nos chamam a atenção, quais sejam:
 
@@ -312,14 +312,14 @@ Para efeito de comparação dos coeficientes associados a cada variável predito
 Para realizar previsões sobre valores para a variável resposta, recomenda-se o uso de valores para as variáveis explicativas dentro dos respectivos intervalos observados. Daí a importância de um breve resumo sobre os dados observados:
 
 ```{r}
-#summary(dados)
+summary(dadosNum)
 
 ```
 
-Agora, suponha que temos por objetivo prever os valores para os comprimentos das sépalas considerando os seguintes valores para as variáveis explicativas:
+Agora, suponha que temos por objetivo prever os valores de `Balance` considerando os seguintes valores para as variáveis explicativas:
 
 ```{r}
-#novas.preditoras <- data.frame(Sepal.Width=c(2.5, 3.0, 3.5), Petal.Length=c(2.0, 4.0, 3.0))
+novas.preditoras <- data.frame(Balance=c(450.0, 500.0, 550.0), Income=c(40.0, 45.0, 50.0), Rating=c(300.0, 350.0, 400.0), Cards=c(2.5, 3.0, 3.5), Age=c(50.0, 55.0, 60.0), Education=c(12.0, 13.0, 14.0))
 
 ```
 
@@ -333,8 +333,8 @@ Um **intervalo de confiança** captura a incerteza em torno dos **valores médio
 
 ```{r}
 
-#predict(modelo2, novas.preditoras,
-#        interval = "confidence")
+predict(modelo2, novas.preditoras,
+        interval = "confidence")
 
 ```
 
@@ -343,8 +343,8 @@ Um **intervalo de confiança** captura a incerteza em torno dos **valores médio
 Um **intervalo de predição** captura a incerteza em torno de um **único valor** não observado na base de dados e não em torno do seu **valor médio/esperado** o qual é obtido pelas variáveis preditoras observadas na base de dados.
 
 ```{r}
-#predict(modelo2, novas.preditoras,
-#        interval = "prediction")
+predict(modelo2, novas.preditoras,
+        interval = "prediction")
 
 ```
 

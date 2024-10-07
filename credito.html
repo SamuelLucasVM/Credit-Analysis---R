@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -34,7 +34,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -89,7 +89,7 @@ div.csl-indent {
 <link href="credito_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="credito_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -141,8 +141,14 @@ window.Quarto = {
   <li><a href="#ajuste-do-modelo-1" id="toc-ajuste-do-modelo-1" class="nav-link" data-scroll-target="#ajuste-do-modelo-1"><span class="header-section-number">3</span> Ajuste do modelo 1</a>
   <ul class="collapse">
   <li><a href="#existe-multicolinearidade-e-agora" id="toc-existe-multicolinearidade-e-agora" class="nav-link" data-scroll-target="#existe-multicolinearidade-e-agora"><span class="header-section-number">3.1</span> Existe multicolinearidade, e agora?</a></li>
-  <li><a href="#sec-modelo2selecionado" id="toc-sec-modelo2selecionado" class="nav-link" data-scroll-target="#sec-modelo2selecionado"><span class="header-section-number">3.2</span> Modelo sem <code>Petal.Width</code> (modelo2)</a></li>
-  <li><a href="#modelo-sem-petal.length-modelo3" id="toc-modelo-sem-petal.length-modelo3" class="nav-link" data-scroll-target="#modelo-sem-petal.length-modelo3"><span class="header-section-number">3.3</span> Modelo sem <code>Petal.Length</code> (modelo3)</a></li>
+  <li><a href="#sec-modelo2selecionado" id="toc-sec-modelo2selecionado" class="nav-link" data-scroll-target="#sec-modelo2selecionado"><span class="header-section-number">3.2</span> Modelo sem <code>Limit</code> (modelo2)</a>
+  <ul class="collapse">
+  <li><a href="#vif-para-o-modelo" id="toc-vif-para-o-modelo" class="nav-link" data-scroll-target="#vif-para-o-modelo"><span class="header-section-number">3.2.1</span> Vif para o modelo</a></li>
+  </ul></li>
+  <li><a href="#modelo-sem-rating-modelo3" id="toc-modelo-sem-rating-modelo3" class="nav-link" data-scroll-target="#modelo-sem-rating-modelo3"><span class="header-section-number">3.3</span> Modelo sem <code>Rating</code> (modelo3)</a>
+  <ul class="collapse">
+  <li><a href="#vif-para-o-modelo-1" id="toc-vif-para-o-modelo-1" class="nav-link" data-scroll-target="#vif-para-o-modelo-1"><span class="header-section-number">3.3.1</span> Vif para o modelo</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#métodos-de-seleção-de-modelos" id="toc-métodos-de-seleção-de-modelos" class="nav-link" data-scroll-target="#métodos-de-seleção-de-modelos"><span class="header-section-number">4</span> Métodos de seleção de modelos</a>
   <ul class="collapse">
@@ -150,43 +156,42 @@ window.Quarto = {
   <li><a href="#medida-bic" id="toc-medida-bic" class="nav-link" data-scroll-target="#medida-bic"><span class="header-section-number">4.2</span> Medida BIC</a></li>
   <li><a href="#comparação-de-modelos-encaixados-anova" id="toc-comparação-de-modelos-encaixados-anova" class="nav-link" data-scroll-target="#comparação-de-modelos-encaixados-anova"><span class="header-section-number">4.3</span> Comparação de modelos encaixados (ANOVA)</a></li>
   </ul></li>
-  <li><a href="#seleção-automática-de-modelo-pelo-aic" id="toc-seleção-automática-de-modelo-pelo-aic" class="nav-link" data-scroll-target="#seleção-automática-de-modelo-pelo-aic"><span class="header-section-number">5</span> Seleção automática de modelo pelo AIC</a></li>
-  <li><a href="#modelo-selecionado-modelo2" id="toc-modelo-selecionado-modelo2" class="nav-link" data-scroll-target="#modelo-selecionado-modelo2"><span class="header-section-number">6</span> Modelo selecionado (modelo2)</a>
+  <li><a href="#modelo-selecionado-modelo2" id="toc-modelo-selecionado-modelo2" class="nav-link" data-scroll-target="#modelo-selecionado-modelo2"><span class="header-section-number">5</span> Modelo selecionado (modelo2)</a>
   <ul class="collapse">
-  <li><a href="#análises-dos-pressupostos-e-comentários" id="toc-análises-dos-pressupostos-e-comentários" class="nav-link" data-scroll-target="#análises-dos-pressupostos-e-comentários"><span class="header-section-number">6.1</span> Análises dos pressupostos e Comentários</a></li>
+  <li><a href="#análises-dos-pressupostos-e-comentários" id="toc-análises-dos-pressupostos-e-comentários" class="nav-link" data-scroll-target="#análises-dos-pressupostos-e-comentários"><span class="header-section-number">5.1</span> Análises dos pressupostos e Comentários</a></li>
   </ul></li>
-  <li><a href="#interpretações-do-modelo-selecionado" id="toc-interpretações-do-modelo-selecionado" class="nav-link" data-scroll-target="#interpretações-do-modelo-selecionado"><span class="header-section-number">7</span> Interpretações do modelo selecionado</a>
+  <li><a href="#interpretações-do-modelo-selecionado" id="toc-interpretações-do-modelo-selecionado" class="nav-link" data-scroll-target="#interpretações-do-modelo-selecionado"><span class="header-section-number">6</span> Interpretações do modelo selecionado</a>
   <ul class="collapse">
-  <li><a href="#coeficientes-padronizados" id="toc-coeficientes-padronizados" class="nav-link" data-scroll-target="#coeficientes-padronizados"><span class="header-section-number">7.1</span> Coeficientes padronizados</a></li>
+  <li><a href="#coeficientes-padronizados" id="toc-coeficientes-padronizados" class="nav-link" data-scroll-target="#coeficientes-padronizados"><span class="header-section-number">6.1</span> Coeficientes padronizados</a></li>
   </ul></li>
-  <li><a href="#previsões" id="toc-previsões" class="nav-link" data-scroll-target="#previsões"><span class="header-section-number">8</span> Previsões</a>
+  <li><a href="#previsões" id="toc-previsões" class="nav-link" data-scroll-target="#previsões"><span class="header-section-number">7</span> Previsões</a>
   <ul class="collapse">
-  <li><a href="#intervalo-de-confiança" id="toc-intervalo-de-confiança" class="nav-link" data-scroll-target="#intervalo-de-confiança"><span class="header-section-number">8.1</span> Intervalo de Confiança</a></li>
-  <li><a href="#intervalo-de-prediçãoprevisão" id="toc-intervalo-de-prediçãoprevisão" class="nav-link" data-scroll-target="#intervalo-de-prediçãoprevisão"><span class="header-section-number">8.2</span> Intervalo de Predição/Previsão</a></li>
-  <li><a href="#observações" id="toc-observações" class="nav-link" data-scroll-target="#observações"><span class="header-section-number">8.3</span> Observações</a></li>
+  <li><a href="#intervalo-de-confiança" id="toc-intervalo-de-confiança" class="nav-link" data-scroll-target="#intervalo-de-confiança"><span class="header-section-number">7.1</span> Intervalo de Confiança</a></li>
+  <li><a href="#intervalo-de-prediçãoprevisão" id="toc-intervalo-de-prediçãoprevisão" class="nav-link" data-scroll-target="#intervalo-de-prediçãoprevisão"><span class="header-section-number">7.2</span> Intervalo de Predição/Previsão</a></li>
+  <li><a href="#observações" id="toc-observações" class="nav-link" data-scroll-target="#observações"><span class="header-section-number">7.3</span> Observações</a></li>
   </ul></li>
-  <li><a href="#regressão-com-variáveis-qualitativas-dummiesfictíciasindicadoras" id="toc-regressão-com-variáveis-qualitativas-dummiesfictíciasindicadoras" class="nav-link" data-scroll-target="#regressão-com-variáveis-qualitativas-dummiesfictíciasindicadoras"><span class="header-section-number">9</span> Regressão com variáveis Qualitativas (Dummies/Fictícias/Indicadoras)</a>
+  <li><a href="#regressão-com-variáveis-qualitativas-dummiesfictíciasindicadoras" id="toc-regressão-com-variáveis-qualitativas-dummiesfictíciasindicadoras" class="nav-link" data-scroll-target="#regressão-com-variáveis-qualitativas-dummiesfictíciasindicadoras"><span class="header-section-number">8</span> Regressão com variáveis Qualitativas (Dummies/Fictícias/Indicadoras)</a>
   <ul class="collapse">
-  <li><a href="#sepal.length-versus-species" id="toc-sepal.length-versus-species" class="nav-link" data-scroll-target="#sepal.length-versus-species"><span class="header-section-number">9.1</span> <code>Sepal.Length</code> versus <code>Species</code></a>
+  <li><a href="#sepal.length-versus-species" id="toc-sepal.length-versus-species" class="nav-link" data-scroll-target="#sepal.length-versus-species"><span class="header-section-number">8.1</span> <code>Sepal.Length</code> versus <code>Species</code></a>
   <ul class="collapse">
-  <li><a href="#visualizações-gráficas" id="toc-visualizações-gráficas" class="nav-link" data-scroll-target="#visualizações-gráficas"><span class="header-section-number">9.1.1</span> Visualizações gráficas</a></li>
+  <li><a href="#visualizações-gráficas" id="toc-visualizações-gráficas" class="nav-link" data-scroll-target="#visualizações-gráficas"><span class="header-section-number">8.1.1</span> Visualizações gráficas</a></li>
   </ul></li>
-  <li><a href="#sobre-os-levels-da-variável-species" id="toc-sobre-os-levels-da-variável-species" class="nav-link" data-scroll-target="#sobre-os-levels-da-variável-species"><span class="header-section-number">9.2</span> Sobre os “levels” da variável <code>Species</code></a></li>
-  <li><a href="#mrlm-ajustado-com-a-variável-species" id="toc-mrlm-ajustado-com-a-variável-species" class="nav-link" data-scroll-target="#mrlm-ajustado-com-a-variável-species"><span class="header-section-number">9.3</span> MRLM ajustado com a variável <code>Species</code></a>
+  <li><a href="#sobre-os-levels-da-variável-species" id="toc-sobre-os-levels-da-variável-species" class="nav-link" data-scroll-target="#sobre-os-levels-da-variável-species"><span class="header-section-number">8.2</span> Sobre os “levels” da variável <code>Species</code></a></li>
+  <li><a href="#mrlm-ajustado-com-a-variável-species" id="toc-mrlm-ajustado-com-a-variável-species" class="nav-link" data-scroll-target="#mrlm-ajustado-com-a-variável-species"><span class="header-section-number">8.3</span> MRLM ajustado com a variável <code>Species</code></a>
   <ul class="collapse">
-  <li><a href="#interpretações" id="toc-interpretações" class="nav-link" data-scroll-target="#interpretações"><span class="header-section-number">9.3.1</span> Interpretações</a></li>
+  <li><a href="#interpretações" id="toc-interpretações" class="nav-link" data-scroll-target="#interpretações"><span class="header-section-number">8.3.1</span> Interpretações</a></li>
   </ul></li>
-  <li><a href="#modelo-ajustado-sem-o-petal.length" id="toc-modelo-ajustado-sem-o-petal.length" class="nav-link" data-scroll-target="#modelo-ajustado-sem-o-petal.length"><span class="header-section-number">9.4</span> Modelo ajustado sem o <code>Petal.Length</code></a>
+  <li><a href="#modelo-ajustado-sem-o-petal.length" id="toc-modelo-ajustado-sem-o-petal.length" class="nav-link" data-scroll-target="#modelo-ajustado-sem-o-petal.length"><span class="header-section-number">8.4</span> Modelo ajustado sem o <code>Petal.Length</code></a>
   <ul class="collapse">
-  <li><a href="#interpretações-1" id="toc-interpretações-1" class="nav-link" data-scroll-target="#interpretações-1"><span class="header-section-number">9.4.1</span> Interpretações</a></li>
+  <li><a href="#interpretações-1" id="toc-interpretações-1" class="nav-link" data-scroll-target="#interpretações-1"><span class="header-section-number">8.4.1</span> Interpretações</a></li>
   </ul></li>
-  <li><a href="#alterando-a-categoria-de-referência" id="toc-alterando-a-categoria-de-referência" class="nav-link" data-scroll-target="#alterando-a-categoria-de-referência"><span class="header-section-number">9.5</span> Alterando a Categoria de Referência</a>
+  <li><a href="#alterando-a-categoria-de-referência" id="toc-alterando-a-categoria-de-referência" class="nav-link" data-scroll-target="#alterando-a-categoria-de-referência"><span class="header-section-number">8.5</span> Alterando a Categoria de Referência</a>
   <ul class="collapse">
-  <li><a href="#virginica-como-categoria-de-referência" id="toc-virginica-como-categoria-de-referência" class="nav-link" data-scroll-target="#virginica-como-categoria-de-referência"><span class="header-section-number">9.5.1</span> “virginica” como categoria de referência</a></li>
-  <li><a href="#virginica-ao-meio-do-level-e-versicolor-como-categoria-de-referência" id="toc-virginica-ao-meio-do-level-e-versicolor-como-categoria-de-referência" class="nav-link" data-scroll-target="#virginica-ao-meio-do-level-e-versicolor-como-categoria-de-referência"><span class="header-section-number">9.5.2</span> “virginica” ao meio do level e “versicolor” como categoria de referência</a></li>
+  <li><a href="#virginica-como-categoria-de-referência" id="toc-virginica-como-categoria-de-referência" class="nav-link" data-scroll-target="#virginica-como-categoria-de-referência"><span class="header-section-number">8.5.1</span> “virginica” como categoria de referência</a></li>
+  <li><a href="#virginica-ao-meio-do-level-e-versicolor-como-categoria-de-referência" id="toc-virginica-ao-meio-do-level-e-versicolor-como-categoria-de-referência" class="nav-link" data-scroll-target="#virginica-ao-meio-do-level-e-versicolor-como-categoria-de-referência"><span class="header-section-number">8.5.2</span> “virginica” ao meio do level e “versicolor” como categoria de referência</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#conclusão" id="toc-conclusão" class="nav-link" data-scroll-target="#conclusão"><span class="header-section-number">10</span> Conclusão</a></li>
+  <li><a href="#conclusão" id="toc-conclusão" class="nav-link" data-scroll-target="#conclusão"><span class="header-section-number">9</span> Conclusão</a></li>
   </ul>
 </nav>
 </div>
@@ -211,7 +216,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Data de Publicação</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">5 de outubro de 2024</p>
+      <p class="date">6 de outubro de 2024</p>
     </div>
   </div>
   
@@ -257,21 +262,29 @@ $ Married   &lt;fct&gt; Yes, Yes, No, No, Yes, No, No, No, No, Yes, Yes, No, Yes
 $ Ethnicity &lt;fct&gt; Caucasian, Asian, Asian, Asian, Caucasian, Caucasian, Africa…
 $ Balance   &lt;int&gt; 333, 903, 580, 964, 331, 1151, 203, 872, 279, 1350, 1407, 0,…</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#2. Descreva a base de dados indicando o número de observações e as variáveis com os</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#names, seus signicados e as correspondentes unidades de medida;</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>(TODO) Visualizando rapidamente a estrutura da base de dados, observamos as seguintes variáveis:</p>
+<p>Visualizando rapidamente a estrutura da base de dados, observamos as seguintes variáveis:</p>
 <ul>
 <li><code>Var.Name</code>: some description;</li>
+<li><code>Credit.Income</code>: Quantitativa Continua, Salário do usuário em milhares de dolares;</li>
+<li><code>Credit.Limit</code>: Quantitativa Discreta, Llimite do cartão de crédito do usuário;</li>
+<li><code>Credit.Rating</code>: Quantitativa Discreta, Nível de crédito do usuário;</li>
+<li><code>Credit.Cards</code>: Quantitativa Discreta, Número de cartões de crédito;</li>
+<li><code>Credit.Age</code>: Quantitativa Discreta, Idade do usuário;</li>
+<li><code>Credit.Education</code>: Quantitativa Ordinal, Nível de educação do usuário em anos;</li>
+<li><code>Credit.Student</code>: Qualitativa Nominal, Se o usuário foi ou não um estudante;</li>
+<li><code>Credit.Married</code>: Qualitativa Nominal, Se o usuário já se casou;</li>
+<li><code>Credit.Ethnicity</code>: Qualitativa Nominal, Indicador da etnia autointitulada pelo usuário;</li>
+<li><code>Credit.Balance</code>: Variavel resposta de estudo, Qual o gasto médio do cartão de crédito do usuário;</li>
 </ul>
 <section id="análise-exploratória-dos-dados" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="análise-exploratória-dos-dados"><span class="header-section-number">2.1</span> Análise exploratória dos dados</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> Credit</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(dados)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> Credit</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(dados)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Data summary</caption>
@@ -507,9 +520,9 @@ $ Balance   &lt;int&gt; 333, 903, 580, 964, 331, 1151, 203, 872, 279, 1350, 1407
 </tbody>
 </table>
 </div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dadosNum <span class="ot">&lt;-</span> <span class="fu">select</span>(dados, <span class="sc">-</span><span class="fu">c</span>(ID, Gender, Student, Married, Ethnicity))</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>dadosNum <span class="ot">&lt;-</span> dadosNum <span class="sc">%&gt;%</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Balance, <span class="fu">everything</span>())</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dadosNum <span class="ot">&lt;-</span> <span class="fu">select</span>(dados, <span class="sc">-</span><span class="fu">c</span>(ID, Gender, Student, Married, Ethnicity))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dadosNum <span class="ot">&lt;-</span> dadosNum <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Balance, <span class="fu">everything</span>())</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="comentários" class="level3" data-number="2.1.1">
 <h3 data-number="2.1.1" class="anchored" data-anchor-id="comentários"><span class="header-section-number">2.1.1</span> Comentários:</h3>
@@ -518,10 +531,10 @@ $ Balance   &lt;int&gt; 333, 903, 580, 964, 331, 1151, 203, 872, 279, 1350, 1407
 <section id="sec-GGally" class="level3" data-number="2.1.2">
 <h3 data-number="2.1.2" class="anchored" data-anchor-id="sec-GGally"><span class="header-section-number">2.1.2</span> Análise de correlação</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>graf1 <span class="ot">&lt;-</span> <span class="fu">ggpairs</span>(dadosNum, <span class="at">columns =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(dadosNum))</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>graf1</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>graf1 <span class="ot">&lt;-</span> <span class="fu">ggpairs</span>(dadosNum, <span class="at">columns =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(dadosNum))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>graf1</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -529,8 +542,8 @@ $ Balance   &lt;int&gt; 333, 903, 580, 964, 331, 1151, 203, 872, 279, 1350, 1407
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"Grafico_dispersao_iris.jpeg"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"Grafico_dispersao_iris.jpeg"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="comentários-1" class="level4" data-number="2.1.2.1">
 <h4 data-number="2.1.2.1" class="anchored" data-anchor-id="comentários-1"><span class="header-section-number">2.1.2.1</span> Comentários</h4>
@@ -540,12 +553,12 @@ $ Balance   &lt;int&gt; 333, 903, 580, 964, 331, 1151, 203, 872, 279, 1350, 1407
 </ol>
 <!-- -->
 <ol type="i">
-<li><p>não apresenta correlação linear significante com a variável <code>Age</code> (r= 0.002, p &gt; 1);</p></li>
-<li><p>não apresenta correlação linear significante com a variável <code>Education</code> (r= -0.008, p &lt; 1);</p></li>
-<li><p>apresenta correlação linear baixa com a variável <code>Cards</code> (r= 0.086, p &lt; 0.05);</p></li>
-<li><p>apresenta correlação linear significante com a variável <code>Income</code> (r= 0.464, p &lt; 0);</p></li>
-<li><p>apresenta correlação linear significante com a variável <code>Limit</code> (r= 0.862, p &lt; 0);</p></li>
-<li><p>apresenta correlação linear significante com a variável <code>Rating</code> (r= 0.864, p &lt; 0);</p></li>
+<li><p>não apresenta correlação linear significante com a variável <code>Age</code> (r= 0.002, 0.1 &lt; p &lt; 1);</p></li>
+<li><p>não apresenta correlação linear significante com a variável <code>Education</code> (r= -0.008, 0.1 &lt; p &lt; 1);</p></li>
+<li><p>apresenta correlação linear baixa com a variável <code>Cards</code> (r= 0.086, 0.05 &lt; p &lt; 0.1);</p></li>
+<li><p>apresenta correlação linear significante com a variável <code>Income</code> (r= 0.464, 0 &lt; p &lt; 0.001);</p></li>
+<li><p>apresenta correlação linear significante com a variável <code>Limit</code> (r= 0.862, 0 &lt; p &lt; 0.001);</p></li>
+<li><p>apresenta correlação linear significante com a variável <code>Rating</code> (r= 0.864, 0 &lt; p &lt; 0.001);</p></li>
 </ol>
 <!-- -->
 <ol start="2" type="1">
@@ -590,25 +603,14 @@ $ Balance   &lt;int&gt; 333, 903, 580, 964, 331, 1151, 203, 872, 279, 1350, 1407
 <section id="multicolinearidade---analisando-o-vif---variance-inflation-factor" class="level4" data-number="2.1.2.2">
 <h4 data-number="2.1.2.2" class="anchored" data-anchor-id="multicolinearidade---analisando-o-vif---variance-inflation-factor"><span class="header-section-number">2.1.2.2</span> Multicolinearidade - Analisando o VIF - Variance Inflation Factor</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>modelo1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Balance <span class="sc">~</span> ., <span class="at">data =</span> dadosNum)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(modelo1)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>modelo1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Balance <span class="sc">~</span> ., <span class="at">data =</span> dadosNum)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(modelo1)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Income      Limit     Rating      Cards        Age  Education 
   2.773276 228.848290 230.612596   1.433932   1.038541   1.008043 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#modelo2 &lt;- update(modelo1, ~ . -Income)</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">#vif(modelo2)</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co">#modelo3 &lt;- update(modelo1, ~ . -Limit)</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">#vif(modelo3)</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>modelo4 <span class="ot">&lt;-</span> <span class="fu">update</span>(modelo1, <span class="sc">~</span> . <span class="sc">-</span>Rating)</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">#vif(modelo4)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Como podemos ver, são as variáveis <code>Limit</code> e <code>Rating</code> apresentam vif maior que 10 e são exatamente elas que também apresentaram forte correlação positiva.</p>
 </section>
@@ -618,7 +620,7 @@ $ Balance   &lt;int&gt; 333, 903, 580, 964, 331, 1151, 203, 872, 279, 1350, 1407
 <section id="ajuste-do-modelo-1" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Ajuste do modelo 1</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo1)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo1)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -650,52 +652,117 @@ Ao observar o ajuste do primeiro modelo com o intuito de prever o <code>Gasto m�
 <ol type="1">
 <li><p>O erro padrão da variável <code>Cards</code> é extremamente maior que os erros padrões das demais variáveis preditoras;</p></li>
 <li><p>O erro padrão da variável <code>Education</code> é significativamente maior que os erros padrões das demais variáveis preditoras;</p></li>
-<li><p>A variável <code>Income</code></p></li>
+<li><p>A variável <code>Income</code> apresenta efeito negativo ao <code>Balance</code>, talvez pelo fato de que se há um alto saldo entrando na conta do usuário, não há necessidade de se usar o crédito disponível.</p></li>
+<li><p>A variável <code>Age</code> apresenta efeito negativo ao <code>Balance</code>, logo quanto maior a idade, menor o <code>gasto médio em crédito</code>.</p></li>
 </ol>
-<p>Resumindo, diante das análises prévias e constatações a partir dos resultados do modelo, identificamos que existe o problema de multicolinearidade de modo que as variáveis preditoras <code>Petal.Length</code> e <code>Petal.Width</code> não conseguem explicar a variável resposta <code>Sepal.Length</code> de forma uníssona, pois as mesmas compartilham da mesma informação muito fortemente de modo que elas competem para juntas explicarem/predizerem a variável resposta <code>Sepal.Length</code>, compromentendo assim, a confiabilidade dos coeficientes estimados e dos valores p.</p>
+<p>Resumindo, diante das análises prévias e constatações a partir dos resultados do modelo, identificamos que existe o problema de multicolinearidade de modo que as variáveis preditoras <code>Limit</code> e <code>Rating</code> não conseguem explicar a variável resposta <code>Balance</code> de forma uníssona, pois as mesmas compartilham da mesma informação muito fortemente de modo que elas competem para juntas explicarem/predizerem a variável resposta <code>Balance</code>, compromentendo assim, a confiabilidade dos coeficientes estimados e dos valores p.</p>
 <section id="existe-multicolinearidade-e-agora" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="existe-multicolinearidade-e-agora"><span class="header-section-number">3.1</span> Existe multicolinearidade, e agora?</h2>
-<ul>
-<li><p>Se você detectar multicolinearidade, o próximo passo é decidir se você precisa resolvê-la de alguma forma.</p></li>
-<li><p>Dependendo do objetivo da sua análise de regressão, você pode não precisar realmente resolver a multicolinearidade.</p></li>
-<li><p>Para uma orientação sobre este tema com mais detalhes, recomendamos a leitura de um Guia disponível em:</p></li>
-</ul>
-<p><a href="https://www.statology.org/multicollinearity-regression/" class="uri">https://www.statology.org/multicollinearity-regression/</a></p>
-<p>ou</p>
-<p><a href="https://statisticalhorizons.com/multicollinearity/">Quando você pode ignorar a multicolinearidade com segurança?</a></p>
-<p><br>
-</p>
-<p>Na presente análise, seguiremos ajustando dois modelos excluindo do modelo inicial e completo 1, cada uma das variáveis explicativas em separado (<code>Petal.Length</code> e <code>Petal.Width</code>), mantendo a outra no modelo inicial. Vejamos:</p>
+<p>Na presente análise, seguiremos ajustando dois modelos excluindo do modelo inicial e completo 1, cada uma das variáveis explicativas em separado (<code>Limit</code> e <code>Rating</code>), mantendo a outra no modelo inicial. Vejamos:</p>
 <p><br>
 </p>
 </section>
 <section id="sec-modelo2selecionado" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="sec-modelo2selecionado"><span class="header-section-number">3.2</span> Modelo sem <code>Petal.Width</code> (modelo2)</h2>
+<h2 data-number="3.2" class="anchored" data-anchor-id="sec-modelo2selecionado"><span class="header-section-number">3.2</span> Modelo sem <code>Limit</code> (modelo2)</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#modelo2 &lt;- update(modelo1, ~ . -Petal.Width)</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(modelo2)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>modelo2 <span class="ot">&lt;-</span> <span class="fu">update</span>(modelo1, <span class="sc">~</span> . <span class="sc">-</span>Limit)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo2)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Balance ~ Income + Rating + Cards + Age + Education, 
+    data = dadosNum)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-258.70 -113.51  -36.34   57.84  578.85 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -525.91825   51.52197 -10.208   &lt;2e-16 ***
+Income        -7.54314    0.38456 -19.615   &lt;2e-16 ***
+Rating         3.93664    0.08677  45.367   &lt;2e-16 ***
+Cards          2.56418    5.99015   0.428   0.6688    
+Age           -0.90190    0.48087  -1.876   0.0615 .  
+Education      2.40719    2.60927   0.923   0.3568    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 162.6 on 394 degrees of freedom
+Multiple R-squared:  0.8765,    Adjusted R-squared:  0.8749 
+F-statistic: 559.3 on 5 and 394 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
 </div>
 <blockquote class="blockquote">
-<p>Observa-se que; para este modelo ajustado; todas as variáveis independentes são estatísticamente significativas com a adequação de ajuste do modelo aos dados igual a 83,8% (Adjusted R-squared: 0.838).</p>
+<p>Observa-se que; para este modelo ajustado; As variáveis independentes <code>Income</code>, <code>Rating</code> e <code>Age</code> são estatísticamente significativas com a adequação de ajuste do modelo aos dados igual a 87,5% (Adjusted R-squared: 0.8749).</p>
+</blockquote>
+<section id="vif-para-o-modelo" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="vif-para-o-modelo"><span class="header-section-number">3.2.1</span> Vif para o modelo</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(modelo2)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Income    Rating     Cards       Age Education 
+ 2.772528  2.720585  1.018348  1.038468  1.003614 </code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Podemos ver que não há problema de correlação linear entre as variáveis independentes, visto que o vif deu abaixo de 10.</p>
 </blockquote>
 <p><br>
 </p>
 </section>
-<section id="modelo-sem-petal.length-modelo3" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="modelo-sem-petal.length-modelo3"><span class="header-section-number">3.3</span> Modelo sem <code>Petal.Length</code> (modelo3)</h2>
+</section>
+<section id="modelo-sem-rating-modelo3" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="modelo-sem-rating-modelo3"><span class="header-section-number">3.3</span> Modelo sem <code>Rating</code> (modelo3)</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#modelo3 &lt;- update(modelo1, ~ . -Petal.Length)</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(modelo3)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>modelo3 <span class="ot">&lt;-</span> <span class="fu">update</span>(modelo1, <span class="sc">~</span> . <span class="sc">-</span>Rating)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo3)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Balance ~ Income + Limit + Cards + Age + Education, 
+    data = dadosNum)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-234.74 -114.91  -39.11   38.60  528.04 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -4.210e+02  5.088e+01  -8.275 2.01e-15 ***
+Income      -7.489e+00  3.842e-01 -19.491  &lt; 2e-16 ***
+Limit        2.628e-01  5.802e-03  45.291  &lt; 2e-16 ***
+Cards        2.161e+01  5.966e+00   3.622 0.000331 ***
+Age         -8.908e-01  4.816e-01  -1.850 0.065089 .  
+Education    1.548e+00  2.613e+00   0.593 0.553855    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 162.8 on 394 degrees of freedom
+Multiple R-squared:  0.8762,    Adjusted R-squared:  0.8746 
+F-statistic: 557.5 on 5 and 394 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
 </div>
 <blockquote class="blockquote">
-<p>Para este modelo e de maneira análoga ao modelo anterior; todas as variáveis independentes são estatísticamente significativas. Por outro lado, a adequação de ajuste do modelo aos dados igual a 70,33% (Adjusted R-squared: 0.7033) é inferior ao modelo anterior.</p>
+<p>Para este modelo e de maneira análoga ao modelo anterior; As variáveis independentes <code>Income</code>, <code>Limit</code>, <code>Cards</code> e <code>Age</code> são estatísticamente significativas. Com a adequação de ajuste do modelo aos dados igual a 87,5% (Adjusted R-squared: 0.8746), praticamente o mesmo do anterior, porém com mais variáveis explicativas.</p>
 </blockquote>
-<p>Podemos rever a análise de correlação e observar que a variável <code>Petal.Width</code> apresenta correlação linear um pouco menor com a variável resposta <code>Sepal.Length</code> quando comparada com a variável <code>Petal.Length</code>.</p>
-<p>Seguiremos, para efeito didático com a exposição de formas de seleção de modelos.</p>
+<section id="vif-para-o-modelo-1" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="vif-para-o-modelo-1"><span class="header-section-number">3.3.1</span> Vif para o modelo</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(modelo2)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Income    Rating     Cards       Age Education 
+ 2.772528  2.720585  1.018348  1.038468  1.003614 </code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Podemos ver que não há problema de correlação linear entre as variáveis independentes, visto que o vif deu abaixo de 10.</p>
+</blockquote>
 <p><br>
 </p>
+</section>
 </section>
 </section>
 <section id="métodos-de-seleção-de-modelos" class="level1" data-number="4">
@@ -703,125 +770,198 @@ Ao observar o ajuste do primeiro modelo com o intuito de prever o <code>Gasto m�
 <section id="medida-aic" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="medida-aic"><span class="header-section-number">4.1</span> Medida AIC</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#AIC(modelo2)</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">#AIC(modelo3)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(modelo2)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5216.103</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(modelo3)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5217.222</code></pre>
+</div>
 </div>
 <blockquote class="blockquote">
-<p>Comparando-se os dois modelos com a exclusão; em separado; das duas variáveis que apresentam multicolinearidade; observa-se que o modelo com o menor valor de AIC é o modelo 2 e; portanto; é o preferível. Além disso, como regra prática, observa-se uma diferença entre os valores superior a 10 para que haja um indício significativo de real diferença.</p>
+<p>Comparando-se os dois modelos com a exclusão; em separado; das duas variáveis que apresentam multicolinearidade; observa-se que o modelo com o menor valor de AIC é o modelo 2. Mas, como regra prática, não observa-se uma diferença entre os valores superior a 10 para que haja um indício significativo de real diferença, então podemos escolher o modelo 2 ou o 3.</p>
 </blockquote>
 </section>
 <section id="medida-bic" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="medida-bic"><span class="header-section-number">4.2</span> Medida BIC</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#BIC(modelo2)</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">#BIC(modelo3)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(modelo2)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5244.043</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(modelo3)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5245.162</code></pre>
+</div>
 </div>
 <blockquote class="blockquote">
-<p>De maneira análoga à interpretação da medida AIC, interpreta-se a medida BIC e; conforme pode ser visto; o modelo com o menor valor de BIC é o modelo 2 e; portanto; é o preferível. Além disso, como regra prática, observa-se uma diferença entre os valores superior a 10 para que haja um indício significativo de real diferença.</p>
+<p>De maneira análoga à interpretação da medida AIC, interpreta-se a medida BIC e; conforme pode ser visto; o modelo com o menor valor de BIC é o modelo 2. Mas, como regra prática, não observa-se uma diferença entre os valores superior a 10 para que haja um indício significativo de real diferença, então podemos escolher o modelo 2 ou o 3.</p>
 </blockquote>
 </section>
 <section id="comparação-de-modelos-encaixados-anova" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="comparação-de-modelos-encaixados-anova"><span class="header-section-number">4.3</span> Comparação de modelos encaixados (ANOVA)</h2>
-<p>Uma análise de variância (ANOVA) com o intuito de <strong>selecionar um modelo (variáveis)</strong> é possível ser utilizada quando se deseja comparar <strong>modelos aninhados</strong>; ou seja; quando um ou mais modelo é obtido como sub-conjunto do(s) outro(s). Vejamos como se aplica na presente análise.</p>
 <p><br>
 </p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#anova(modelo2, modelo1)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modelo2, modelo1)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Model 1: Balance ~ Income + Rating + Cards + Age + Education
+Model 2: Balance ~ Income + Limit + Rating + Cards + Age + Education
+  Res.Df      RSS Df Sum of Sq      F  Pr(&gt;F)  
+1    394 10415906                              
+2    393 10268781  1    147125 5.6307 0.01813 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
 </div>
 <blockquote class="blockquote">
-<p>Observa-se pelo teste F que <strong>deve-se rejeitar a hipótese nula</strong> de que o modelo completo (com a variável <code>Petal.Width</code> inclusa) explica <strong>tão bem quanto o sub-modelo sem a variável</strong> <code>Petal.Width</code> (p &lt; 0,001). Em outras palavras, esta variável é estatísticamente significante para a regressão (ainda que haja problema de multicolinearidade quando na presença da variável <code>Petal.Length</code>).</p>
+<p>Observa-se pelo teste F que <strong>deve-se rejeitar a hipótese nula</strong> de que o modelo completo (com a variável <code>Limit</code> inclusa) explica <strong>tão bem quanto o sub-modelo sem a variável</strong> <code>Limit</code> (p &lt; 0,05). Em outras palavras, esta variável é estatísticamente significante para a regressão (ainda que haja problema de multicolinearidade quando na presença da variável <code>Rating</code>).</p>
 </blockquote>
 <p><br>
 </p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#anova(modelo3, modelo1)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modelo3, modelo1)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Model 1: Balance ~ Income + Limit + Cards + Age + Education
+Model 2: Balance ~ Income + Limit + Rating + Cards + Age + Education
+  Res.Df      RSS Df Sum of Sq      F   Pr(&gt;F)   
+1    394 10445079                                
+2    393 10268781  1    176298 6.7472 0.009742 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
 </div>
 <blockquote class="blockquote">
-<p>Ao realizar a ANOVA para verificar a significância da variável <code>Petal.Length</code> para regressão, observa-se resultado análogo ao da variável <code>Petal.Width</code>; ou seja; a variável <code>Petal.Length</code> é estatísticamente significante para a regressão (ainda que haja problema de multicolinearidade quando na presença da variável <code>Petal.Width</code>).</p>
+<p>Ao realizar a ANOVA para verificar a significância da variável <code>Rating</code> para regressão, observa-se resultado ainda mais significativo do que da variável <code>Limit</code>; ou seja; a variável <code>Rating</code> é mais estatísticamente significante para a regressão (ainda que haja problema de multicolinearidade quando na presença da variável <code>Limit</code>).</p>
 </blockquote>
 <p><br>
 </p>
 </section>
 </section>
-<section id="seleção-automática-de-modelo-pelo-aic" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Seleção automática de modelo pelo AIC</h1>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#step(modelo1)</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">#step(modelo1, direction = "backward")</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">#step(modelo1, direction = "forward")</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co">#step(modelo1, direction = "both")</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><br>
-</p>
-</section>
-<section id="modelo-selecionado-modelo2" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> Modelo selecionado (modelo2)</h1>
+<section id="modelo-selecionado-modelo2" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Modelo selecionado (modelo2)</h1>
 <p>Diante das análises realizadas até o momento e tendo como objetivos não apenas realizar previsões mas também interpretar de forma prática a relação entre as variáveis; o modelo a ser adotado e a ser <strong>verificado o atendimento dos pressuposto</strong> de um MRLM é o <strong>modelo 2</strong>. Vejamos:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(modelo2)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(modelo2)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="credito_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-<section id="análises-dos-pressupostos-e-comentários" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="análises-dos-pressupostos-e-comentários"><span class="header-section-number">6.1</span> Análises dos pressupostos e Comentários</h2>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="credito_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="credito_files/figure-html/unnamed-chunk-14-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="credito_files/figure-html/unnamed-chunk-14-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="análises-dos-pressupostos-e-comentários" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="análises-dos-pressupostos-e-comentários"><span class="header-section-number">5.1</span> Análises dos pressupostos e Comentários</h2>
 <p>Análises análogas à Regressão Linear Simples.</p>
 <p>…</p>
 </section>
 </section>
-<section id="interpretações-do-modelo-selecionado" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> Interpretações do modelo selecionado</h1>
+<section id="interpretações-do-modelo-selecionado" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Interpretações do modelo selecionado</h1>
 <p>Uma maneira automatizada para se relatar os resultados de um modelo é utilizando a função <code>report</code> do pacote de mesmo nome.</p>
 <p>No relatório a ser entregue, o texto deve estar traduzido e interpretado também em termos práticos, de acordo com os objetivos do problema em estudo.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#library(report)</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#report(modelo2)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#library(report)</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co">#report(modelo2)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="coeficientes-padronizados" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="coeficientes-padronizados"><span class="header-section-number">7.1</span> Coeficientes padronizados</h2>
+<section id="coeficientes-padronizados" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="coeficientes-padronizados"><span class="header-section-number">6.1</span> Coeficientes padronizados</h2>
 <p>Para efeito de comparação dos coeficientes associados a cada variável preditora e observação da importância ou peso das mesmas para uma predição, torna-se necessário obter os <strong>coeficientes padronizados</strong> principalmente quando as unidades de medida das variáveis admitem magnitudes de valores bem distindos, por exemplo, uma característica medida em centímetros e outra em metros. Veja como obtê-los sobre o modelo selecionado (o modelo2).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Função lm.beta() do pacote lm.beta</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">#lm.beta::lm.beta(modelo2)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Função lm.beta() do pacote lm.beta</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co">#lm.beta::lm.beta(modelo2)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="previsões" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> Previsões</h1>
+<section id="previsões" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Previsões</h1>
 <p>Para realizar previsões sobre valores para a variável resposta, recomenda-se o uso de valores para as variáveis explicativas dentro dos respectivos intervalos observados. Daí a importância de um breve resumo sobre os dados observados:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(dados)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dadosNum)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Balance            Income           Limit           Rating     
+ Min.   :   0.00   Min.   : 10.35   Min.   :  855   Min.   : 93.0  
+ 1st Qu.:  68.75   1st Qu.: 21.01   1st Qu.: 3088   1st Qu.:247.2  
+ Median : 459.50   Median : 33.12   Median : 4622   Median :344.0  
+ Mean   : 520.01   Mean   : 45.22   Mean   : 4736   Mean   :354.9  
+ 3rd Qu.: 863.00   3rd Qu.: 57.47   3rd Qu.: 5873   3rd Qu.:437.2  
+ Max.   :1999.00   Max.   :186.63   Max.   :13913   Max.   :982.0  
+     Cards            Age          Education    
+ Min.   :1.000   Min.   :23.00   Min.   : 5.00  
+ 1st Qu.:2.000   1st Qu.:41.75   1st Qu.:11.00  
+ Median :3.000   Median :56.00   Median :14.00  
+ Mean   :2.958   Mean   :55.67   Mean   :13.45  
+ 3rd Qu.:4.000   3rd Qu.:70.00   3rd Qu.:16.00  
+ Max.   :9.000   Max.   :98.00   Max.   :20.00  </code></pre>
 </div>
-<p>Agora, suponha que temos por objetivo prever os valores para os comprimentos das sépalas considerando os seguintes valores para as variáveis explicativas:</p>
+</div>
+<p>Agora, suponha que temos por objetivo prever os valores de <code>Balance</code> considerando os seguintes valores para as variáveis explicativas:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#novas.preditoras &lt;- data.frame(Sepal.Width=c(2.5, 3.0, 3.5), Petal.Length=c(2.0, 4.0, 3.0))</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>novas.preditoras <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Balance=</span><span class="fu">c</span>(<span class="fl">450.0</span>, <span class="fl">500.0</span>, <span class="fl">550.0</span>), <span class="at">Income=</span><span class="fu">c</span>(<span class="fl">40.0</span>, <span class="fl">45.0</span>, <span class="fl">50.0</span>), <span class="at">Rating=</span><span class="fu">c</span>(<span class="fl">300.0</span>, <span class="fl">350.0</span>, <span class="fl">400.0</span>), <span class="at">Cards=</span><span class="fu">c</span>(<span class="fl">2.5</span>, <span class="fl">3.0</span>, <span class="fl">3.5</span>), <span class="at">Age=</span><span class="fu">c</span>(<span class="fl">50.0</span>, <span class="fl">55.0</span>, <span class="fl">60.0</span>), <span class="at">Education=</span><span class="fu">c</span>(<span class="fl">12.0</span>, <span class="fl">13.0</span>, <span class="fl">14.0</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Observação</strong>:</p>
 <p>O data.frame <code>novas.preditoras</code> com os novos valores das variáveis preditoras deve ser construído com os mesmos nomes das variáveis preditoras utilizadas no objeto que contém o modelo ajustado.</p>
-<section id="intervalo-de-confiança" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="intervalo-de-confiança"><span class="header-section-number">8.1</span> Intervalo de Confiança</h2>
+<section id="intervalo-de-confiança" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="intervalo-de-confiança"><span class="header-section-number">7.1</span> Intervalo de Confiança</h2>
 <p>Um <strong>intervalo de confiança</strong> captura a incerteza em torno dos <strong>valores médios (valores esperados)</strong> preditos.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#predict(modelo2, novas.preditoras,</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">#        interval = "confidence")</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(modelo2, novas.preditoras,</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">interval =</span> <span class="st">"confidence"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       fit      lwr      upr
+1 343.5506 323.3500 363.7513
+2 501.8468 485.6609 518.0327
+3 660.1430 641.6598 678.6262</code></pre>
+</div>
 </div>
 </section>
-<section id="intervalo-de-prediçãoprevisão" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="intervalo-de-prediçãoprevisão"><span class="header-section-number">8.2</span> Intervalo de Predição/Previsão</h2>
+<section id="intervalo-de-prediçãoprevisão" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="intervalo-de-prediçãoprevisão"><span class="header-section-number">7.2</span> Intervalo de Predição/Previsão</h2>
 <p>Um <strong>intervalo de predição</strong> captura a incerteza em torno de um <strong>único valor</strong> não observado na base de dados e não em torno do seu <strong>valor médio/esperado</strong> o qual é obtido pelas variáveis preditoras observadas na base de dados.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#predict(modelo2, novas.preditoras,</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co">#        interval = "prediction")</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(modelo2, novas.preditoras,</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">interval =</span> <span class="st">"prediction"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       fit       lwr      upr
+1 343.5506  23.25569 663.8456
+2 501.8468 181.77999 821.9137
+3 660.1430 339.95178 980.3342</code></pre>
+</div>
 </div>
 <p><br>
 </p>
 </section>
-<section id="observações" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="observações"><span class="header-section-number">8.3</span> Observações</h2>
+<section id="observações" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="observações"><span class="header-section-number">7.3</span> Observações</h2>
 <blockquote class="blockquote">
 <ol type="1">
 <li>Um <strong>intervalo de predição/previsão</strong> sempre será mais amplo do que um <strong>intervalo de confiança</strong> para os mesmos valores das variáveis independentes.</li>
@@ -842,36 +982,36 @@ Ao observar o ajuste do primeiro modelo com o intuito de prever o <code>Gasto m�
 </p>
 </section>
 </section>
-<section id="regressão-com-variáveis-qualitativas-dummiesfictíciasindicadoras" class="level1" data-number="9">
-<h1 data-number="9"><span class="header-section-number">9</span> Regressão com variáveis Qualitativas (Dummies/Fictícias/Indicadoras)</h1>
+<section id="regressão-com-variáveis-qualitativas-dummiesfictíciasindicadoras" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Regressão com variáveis Qualitativas (Dummies/Fictícias/Indicadoras)</h1>
 <p>A seguir realizamos uma breve análise exploratória através de visualizações gráficas da variável resposta <code>Sepal.Length</code> segundo a variável categórica <code>Species</code>.</p>
-<section id="sepal.length-versus-species" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="sepal.length-versus-species"><span class="header-section-number">9.1</span> <code>Sepal.Length</code> versus <code>Species</code></h2>
-<section id="visualizações-gráficas" class="level3" data-number="9.1.1">
-<h3 data-number="9.1.1" class="anchored" data-anchor-id="visualizações-gráficas"><span class="header-section-number">9.1.1</span> Visualizações gráficas</h3>
+<section id="sepal.length-versus-species" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="sepal.length-versus-species"><span class="header-section-number">8.1</span> <code>Sepal.Length</code> versus <code>Species</code></h2>
+<section id="visualizações-gráficas" class="level3" data-number="8.1.1">
+<h3 data-number="8.1.1" class="anchored" data-anchor-id="visualizações-gráficas"><span class="header-section-number">8.1.1</span> Visualizações gráficas</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#g1 &lt;- ggplot(dados, aes(x=Species, y=Sepal.Length)) +</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  geom_boxplot(fill="blue", alpha=0.4) +</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  theme_classic()</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co">#g1</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co">#g1 &lt;- ggplot(dados, aes(x=Species, y=Sepal.Length)) +</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  geom_boxplot(fill="blue", alpha=0.4) +</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  theme_classic()</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="co">#g1</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#g1 + geom_jitter()</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co">#g1 + geom_jitter()</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#g2 &lt;- ggplot(dados, aes(x=Species, y=Sepal.Length)) +</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  geom_violin(fill="blue", alpha=0.4) +</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  theme_classic()</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co">#g2</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">#g2 &lt;- ggplot(dados, aes(x=Species, y=Sepal.Length)) +</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  geom_violin(fill="blue", alpha=0.4) +</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  theme_classic()</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="co">#g2</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#g3 &lt;- ggplot(dados, aes(x=Sepal.Length, fill=Species)) +</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  geom_density(stat = "density", alpha=0.6) +</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  theme_classic()</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co">#g3</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co">#g3 &lt;- ggplot(dados, aes(x=Sepal.Length, fill=Species)) +</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  geom_density(stat = "density", alpha=0.6) +</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  theme_classic()</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="co">#g3</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br>
 </p>
@@ -881,8 +1021,8 @@ Ao observar o ajuste do primeiro modelo com o intuito de prever o <code>Gasto m�
 </p>
 </section>
 </section>
-<section id="sobre-os-levels-da-variável-species" class="level2" data-number="9.2">
-<h2 data-number="9.2" class="anchored" data-anchor-id="sobre-os-levels-da-variável-species"><span class="header-section-number">9.2</span> Sobre os “levels” da variável <code>Species</code></h2>
+<section id="sobre-os-levels-da-variável-species" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="sobre-os-levels-da-variável-species"><span class="header-section-number">8.2</span> Sobre os “levels” da variável <code>Species</code></h2>
 <blockquote class="blockquote">
 <ul>
 <li>A maioria dos modelos estatísticos, assim como é o caso da regressão linear, foram desenvolvidos para lidar nativamente com variáveis quantitativas;</li>
@@ -905,7 +1045,7 @@ Ao observar o ajuste do primeiro modelo com o intuito de prever o <code>Gasto m�
 </blockquote>
 <p>Veremos este tema agora conhecendo os níveis da variável categórica <code>Species</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#levels(dados$Species) # está em ordem alfabética</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">#levels(dados$Species) # está em ordem alfabética</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br>
 </p>
@@ -944,39 +1084,39 @@ Ao observar o ajuste do primeiro modelo com o intuito de prever o <code>Gasto m�
 </blockquote>
 <p>=&gt; <span class="math inline">\((Z_1, Z_2)=(0, 0)\)</span> para todas as observações em que <code>Species</code>=“setosa”</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#set.seed(1)</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Uma amostra da base de dados para exemplo</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co">#df.original &lt;- head(dados[sample(1:150, 150),])</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Data frame com a variável categórica</span></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="co">#df.original</span></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtém as 3 colunas dummies sem a coluna do intecepto (-1)</span></span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="co">#dummies &lt;- model.matrix(~ Species -1, data = df.original)</span></span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Exclui a primeira dummie para não haver colinearidade</span></span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a><span class="co">#dummies &lt;- dummies[,-1]</span></span>
-<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Se desejar excluir a variável categórica original</span></span>
-<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a><span class="co">#df.original &lt;- df.original %&gt;% select(-Species) </span></span>
-<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a><span class="co">#df.com.dummies &lt;- cbind.data.frame(df.original, dummies)</span></span>
-<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Data frame com a variável categórica original e as dummies sem a categoria de referência para não haver colinearidade</span></span>
-<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a><span class="co">#df.com.dummies</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co">#set.seed(1)</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Uma amostra da base de dados para exemplo</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="co">#df.original &lt;- head(dados[sample(1:150, 150),])</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Data frame com a variável categórica</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="co">#df.original</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtém as 3 colunas dummies sem a coluna do intecepto (-1)</span></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a><span class="co">#dummies &lt;- model.matrix(~ Species -1, data = df.original)</span></span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Exclui a primeira dummie para não haver colinearidade</span></span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a><span class="co">#dummies &lt;- dummies[,-1]</span></span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Se desejar excluir a variável categórica original</span></span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a><span class="co">#df.original &lt;- df.original %&gt;% select(-Species) </span></span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a><span class="co">#df.com.dummies &lt;- cbind.data.frame(df.original, dummies)</span></span>
+<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Data frame com a variável categórica original e as dummies sem a categoria de referência para não haver colinearidade</span></span>
+<span id="cb47-21"><a href="#cb47-21" aria-hidden="true" tabindex="-1"></a><span class="co">#df.com.dummies</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Ou seja, usando a notação Z1 e Z2:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#names(df.com.dummies)[c(6,7)] &lt;- c("Z1","Z2")</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co">#df.com.dummies</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co">#names(df.com.dummies)[c(6,7)] &lt;- c("Z1","Z2")</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="co">#df.com.dummies</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Resumindo, no ajuste do MRLM a coluna <code>Species</code> é substituida pelas colunas <span class="math inline">\(Z_1\)</span> e <span class="math inline">\(Z_2\)</span>.</p>
 <p>Na comunidade dos cientista de dados, este procedimento de criar variáveis <em>dummies</em> para lidar com variáveis predidoras do tipo categórica é conhecido por “<em>one-hot encoding</em>”.</p>
 </section>
-<section id="mrlm-ajustado-com-a-variável-species" class="level2" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="mrlm-ajustado-com-a-variável-species"><span class="header-section-number">9.3</span> MRLM ajustado com a variável <code>Species</code></h2>
+<section id="mrlm-ajustado-com-a-variável-species" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="mrlm-ajustado-com-a-variável-species"><span class="header-section-number">8.3</span> MRLM ajustado com a variável <code>Species</code></h2>
 <p><br>
 </p>
 <p>O modelo a ser ajustado é da forma:</p>
@@ -1015,30 +1155,30 @@ Ao observar o ajuste do primeiro modelo com o intuito de prever o <code>Gasto m�
 </p>
 <p>O modelo ajusatado fica:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">#modelo4 &lt;- lm(Sepal.Length ~ Sepal.Width + Petal.Length + Species, data=dados)</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(modelo4)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co">#modelo4 &lt;- lm(Sepal.Length ~ Sepal.Width + Petal.Length + Species, data=dados)</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(modelo4)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="interpretações" class="level3" data-number="9.3.1">
-<h3 data-number="9.3.1" class="anchored" data-anchor-id="interpretações"><span class="header-section-number">9.3.1</span> Interpretações</h3>
+<section id="interpretações" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="interpretações"><span class="header-section-number">8.3.1</span> Interpretações</h3>
 <p>A partir dos resultados apresentados acima, chega-se a interpretações estranhas com relação aos coeficientes estimados da varável <code>Species</code>; talvez devido a variável <code>Petal.Length</code> estar bem associada com a variável <code>Species</code> (Ver as análises exploratórias na <a href="#sec-GGally" class="quarto-xref">Seção&nbsp;2.1.2</a> (Gráficos de densidade do GGally)).</p>
 </section>
 </section>
-<section id="modelo-ajustado-sem-o-petal.length" class="level2" data-number="9.4">
-<h2 data-number="9.4" class="anchored" data-anchor-id="modelo-ajustado-sem-o-petal.length"><span class="header-section-number">9.4</span> Modelo ajustado sem o <code>Petal.Length</code></h2>
+<section id="modelo-ajustado-sem-o-petal.length" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="modelo-ajustado-sem-o-petal.length"><span class="header-section-number">8.4</span> Modelo ajustado sem o <code>Petal.Length</code></h2>
 <p>Aqui ajustamos um modelo <strong>sem a variável <code>Petal.Length</code></strong> por parecer estar bem associado com a variável <code>Species</code>. Vejamos:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">#modelo5 &lt;- lm(Sepal.Length ~ Sepal.Width + Species, data=dados)</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(modelo5)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">#modelo5 &lt;- lm(Sepal.Length ~ Sepal.Width + Species, data=dados)</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(modelo5)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="interpretações-1" class="level3" data-number="9.4.1">
-<h3 data-number="9.4.1" class="anchored" data-anchor-id="interpretações-1"><span class="header-section-number">9.4.1</span> Interpretações</h3>
+<section id="interpretações-1" class="level3" data-number="8.4.1">
+<h3 data-number="8.4.1" class="anchored" data-anchor-id="interpretações-1"><span class="header-section-number">8.4.1</span> Interpretações</h3>
 <p>Este último modelo ajustado apresenta interpretações práticas adequadas e mais realísticas porém apresenta um Adjusted R-squared: 0.7203 inferior ao do modelo 2, anteriormente selecionado e apresentado na <a href="#sec-modelo2selecionado" class="quarto-xref">Seção&nbsp;3.2</a>. Lá observa-se um Adjusted R-squared: 0.838.</p>
 </section>
 </section>
-<section id="alterando-a-categoria-de-referência" class="level2" data-number="9.5">
-<h2 data-number="9.5" class="anchored" data-anchor-id="alterando-a-categoria-de-referência"><span class="header-section-number">9.5</span> Alterando a Categoria de Referência</h2>
+<section id="alterando-a-categoria-de-referência" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="alterando-a-categoria-de-referência"><span class="header-section-number">8.5</span> Alterando a Categoria de Referência</h2>
 <p>Em algumas situações pode ser necessário <strong>alterar a categoria de referência</strong> da variável qualitativa/categórica para; por exemplo; se obter uma melhor interpretação prática do modelo ajustado. Para resolver esta questão, uma das duas seguintes funções do <em>R</em>; por exemplo; podem ser utilizadas:</p>
 <blockquote class="blockquote">
 <ol type="1">
@@ -1052,32 +1192,32 @@ Ao observar o ajuste do primeiro modelo com o intuito de prever o <code>Gasto m�
 </blockquote>
 <p>Vejamos alguns exemplos.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verifica os levels originais:</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co">#levels(dados$Species)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verifica os levels originais:</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="co">#levels(dados$Species)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <blockquote class="blockquote">
 <p>Os <code>levels</code> estão em ordem alfabética e por isso “setosa” é a primeira e; assim; ela fica sendo a categoria de referência.</p>
 </blockquote>
-<section id="virginica-como-categoria-de-referência" class="level3" data-number="9.5.1">
-<h3 data-number="9.5.1" class="anchored" data-anchor-id="virginica-como-categoria-de-referência"><span class="header-section-number">9.5.1</span> “virginica” como categoria de referência</h3>
+<section id="virginica-como-categoria-de-referência" class="level3" data-number="8.5.1">
+<h3 data-number="8.5.1" class="anchored" data-anchor-id="virginica-como-categoria-de-referência"><span class="header-section-number">8.5.1</span> “virginica” como categoria de referência</h3>
 <p>Se desejarmos que “virginica” seja a categoria de referência, usando a função `relevel`` deve-se fazer:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">#dados$Species &lt;- relevel(dados$Species, "virginica")</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Verifica nova categoria de referência</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co">#levels(dados$Species)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co">#dados$Species &lt;- relevel(dados$Species, "virginica")</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Verifica nova categoria de referência</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="co">#levels(dados$Species)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br>
 </p>
 <p>Ajustando o modelo em função desta nova categoria de referência <strong>nada muda</strong> em termos de <strong>valores preditos</strong> mas <strong>apenas os valores</strong> e consequente <strong>interpretações dos coeficientes</strong>, vejamos:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo igual ao 5 com categoria de referência sendo</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="co"># "virginica"</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co">#modelo6 &lt;- lm(Sepal.Length ~ Sepal.Width + Species, data=dados)</span></span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(modelo6)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo igual ao 5 com categoria de referência sendo</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="co"># "virginica"</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="co">#modelo6 &lt;- lm(Sepal.Length ~ Sepal.Width + Species, data=dados)</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(modelo6)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Comentários/Observações</strong></p>
 <p>Perceba que pelas análises exploratórias, observou-se evidência de que os maiores comprimentos de sépalas (<code>Sepal.Length</code>) acontecem com maior frequência entre a espécie “virginica”, seguido por comprimentos medianos entre a espécie “versicolor” e os menores comprimentos sendo mais frequentes entre a espécie “setosa” e é o que se observa quanto aos coeficientes estimados no modelo ajustado acima. Veja:</p>
@@ -1093,35 +1233,35 @@ Ao observar o ajuste do primeiro modelo com o intuito de prever o <code>Gasto m�
 </blockquote>
 <p>Tais interpretações são análogamente obtidas ao se observar os coeficientes padronizados. Veja abaixo.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Coeficientes padronizados</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co">#lm.beta::lm.beta(modelo6)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Coeficientes padronizados</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="co">#lm.beta::lm.beta(modelo6)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="virginica-ao-meio-do-level-e-versicolor-como-categoria-de-referência" class="level3" data-number="9.5.2">
-<h3 data-number="9.5.2" class="anchored" data-anchor-id="virginica-ao-meio-do-level-e-versicolor-como-categoria-de-referência"><span class="header-section-number">9.5.2</span> “virginica” ao meio do level e “versicolor” como categoria de referência</h3>
+<section id="virginica-ao-meio-do-level-e-versicolor-como-categoria-de-referência" class="level3" data-number="8.5.2">
+<h3 data-number="8.5.2" class="anchored" data-anchor-id="virginica-ao-meio-do-level-e-versicolor-como-categoria-de-referência"><span class="header-section-number">8.5.2</span> “virginica” ao meio do level e “versicolor” como categoria de referência</h3>
 <p>Se desejarmos que “versicolor” seja a categoria de referência, usando a função <code>fct_relevel</code> do pacote <code>forcats</code> deve-se fazer:</p>
 <p>( Veja vários exemplos em: <a href="https://forcats.tidyverse.org/reference/fct_relevel.html" class="uri">https://forcats.tidyverse.org/reference/fct_relevel.html</a> )</p>
 <p><br>
 </p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">#library(forcats)</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co">#dados$Species &lt;- fct_relevel(dados$Species, "versicolor", "virginica", "setosa")</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Verifica nova categoria de referência</span></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="co">#levels(dados$Species)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co">#library(forcats)</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="co">#dados$Species &lt;- fct_relevel(dados$Species, "versicolor", "virginica", "setosa")</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Verifica nova categoria de referência</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a><span class="co">#levels(dados$Species)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br>
 </p>
 <p>Ajustando o modelo em função desta nova categoria de referência <strong>nada muda</strong> em termos de <strong>valores preditos</strong> mas <strong>apenas os valores</strong> e consequente <strong>interpretações dos coeficientes</strong>, vejamos:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo igual ao 5 e 6 com categoria de referência sendo</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co"># "versicolor"</span></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="co">#modelo7 &lt;- lm(Sepal.Length ~ Sepal.Width + Species, data=dados)</span></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(modelo7)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo igual ao 5 e 6 com categoria de referência sendo</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="co"># "versicolor"</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="co">#modelo7 &lt;- lm(Sepal.Length ~ Sepal.Width + Species, data=dados)</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(modelo7)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Comentários/Observações</strong></p>
 <p>Perceba que:</p>
@@ -1137,15 +1277,15 @@ Ao observar o ajuste do primeiro modelo com o intuito de prever o <code>Gasto m�
 </blockquote>
 <p>Tais interpretações são análogamente obtidas ao se observar os coeficientes padronizados. Veja abaixo.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Coeficientes padronizados</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="co">#lm.beta::lm.beta(modelo7)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Coeficientes padronizados</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="co">#lm.beta::lm.beta(modelo7)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
 </section>
-<section id="conclusão" class="level1" data-number="10">
-<h1 data-number="10"><span class="header-section-number">10</span> Conclusão</h1>
+<section id="conclusão" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Conclusão</h1>
 <p>É importantíssimo que no relatório estatístico haja esta seção para descrever em linhas gerais os resultados obtidos, especialmente em termos de resultados práticos e importantes para a resolução de um problema acadêmico e ou para a revelação(ões) de <em>insights</em> para um problema de negócio.</p>
 
 </section>
@@ -1191,18 +1331,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1234,7 +1363,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -1242,7 +1393,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
