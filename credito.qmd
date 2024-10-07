@@ -281,6 +281,10 @@ plot(modelo2)
 
 Análises análogas à Regressão Linear Simples.
 
+- residual vs fitted: Foi percebido nos gráficos de residuos e altos indices da não linearidade dos dados além de suspeita de heterocedasticidade. Então, para poder melhorar a predição para além do que foi feito nessa análise, seria necessário a utilização de modelos não lineares e mais robustos.
+- QQ plot: o gráfico apresenta "enviesamento para a direita" que mais uma vez traz indicios de não linearidade
+- Scale-location: a direção negativa do gráfico dos valores adaptados pelo modelo reafirma as suspeitas de homocedasticidade, além disso os pontos não aparentam estarem espalhados aleatóriamente no entorno da linha do modelo.
+- residual vs leverage: nenhum ponto dos cados está presente depois da distancia de cook indicando que nenhum ponto é um outlier influente o suficiente para alterar sozinho de forma significativa o resultado do modelo.
 ...
 
 # Interpretações do modelo selecionado
@@ -298,14 +302,14 @@ No relatório a ser entregue, o texto deve estar traduzido e interpretado també
 
 ## Coeficientes padronizados
 
-Para efeito de comparação dos coeficientes associados a cada variável preditora e observação da importância ou peso das mesmas para uma predição, torna-se necessário obter os **coeficientes padronizados** principalmente quando as unidades de medida das variáveis admitem magnitudes de valores bem distindos, por exemplo, uma característica medida em centímetros e outra em metros. Veja como obtê-los sobre o modelo selecionado (o modelo2).
-
+Coeficientes padronizados são a mudança média na resposta dada à mudança em um desvio padrão no preditor. O calculo de coeficientes padronizados pode dar indícios de como analisar melhor os dados levando em consideração quais atributos variam mais que outros.
 ```{r}
-# Função lm.beta() do pacote lm.beta
 
-#lm.beta::lm.beta(modelo2)
+lm.beta::lm.beta(modelo2)
 
 ```
+ É possivel perceber que, por exemplo, Rating possui variações numericamente muito maiores que idade por exemplo.
+
 
 # Previsões
 
