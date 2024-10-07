@@ -304,7 +304,6 @@ anova(modelo4, modelo3)
 
 TODO (Comentario do resultado da anova)
 
-
 ```{r}
 summary(modelo4)
 ```
@@ -323,11 +322,10 @@ plot(modelo4)
 
 Análises análogas à Regressão Linear Simples.
 
-- residual vs fitted: Foi percebido nos gráficos de residuos e altos indices da não linearidade dos dados além de suspeita de heterocedasticidade. Então, para poder melhorar a predição para além do que foi feito nessa análise, seria necessário a utilização de modelos não lineares e mais robustos.
-- QQ plot: o gráfico não apresenta nem enviesamento para a direita nem enviesamento para a esqueda porém possui indicios de caudas pesadas, no geral entretanto as suspeitas de não linearidade dminuiram.
-- Scale-location: a direção negativa do gráfico dos valores adaptados pelo modelo reafirma as suspeitas de heterocedasticidade, além disso os pontos não aparentam estarem espalhados aleatóriamente no entorno da linha do modelo.
-- residual vs leverage: nenhum ponto dos dados está presente depois da distancia de cook indicando que nenhum ponto é um outlier influente o suficiente para alterar sozinho de forma significativa o resultado do modelo.
-...
+-   residual vs fitted: Foi percebido nos gráficos de residuos e altos indices da não linearidade dos dados além de suspeita de heterocedasticidade. Então, para poder melhorar a predição para além do que foi feito nessa análise, seria necessário a utilização de modelos não lineares e mais robustos.
+-   QQ plot: o gráfico não apresenta nem enviesamento para a direita nem enviesamento para a esqueda porém possui indicios de caudas pesadas, no geral entretanto as suspeitas de não linearidade dminuiram.
+-   Scale-location: a direção negativa do gráfico dos valores adaptados pelo modelo reafirma as suspeitas de heterocedasticidade, além disso os pontos não aparentam estarem espalhados aleatóriamente no entorno da linha do modelo.
+-   residual vs leverage: nenhum ponto dos dados está presente depois da distancia de cook indicando que nenhum ponto é um outlier influente o suficiente para alterar sozinho de forma significativa o resultado do modelo. ...
 
 # Interpretações do modelo selecionado
 
@@ -366,7 +364,7 @@ predict(modelo4, novas.preditoras)
 
 ```
 
-comentario(TODO)
+Os valores obtidos representam previsões pontuais dos dados das varíaveis preditoras selecionadas, porém isso não serve como medida de incerteza.
 
 ## Intervalo de Confiança
 
@@ -377,7 +375,7 @@ predict(modelo4, novas.preditoras,
 
 ```
 
-comentario(TODO)
+O intervalo de confiança serve como medida de incerteza, em relação a média esperada. Com base nos dados obtidos espera-se que para a **primeira observação (1)** a média esteja entre *231.9412* e *261.742*, para a **segunda observação (2)** espera-se uma média entre *467.4312* e  *488.7587*, enquanto para a **terceira observação (3)** a média deve estar entre *1084.9249* e *1152.5710*.
 
 ## Intervalo de Predição/Previsão
 
@@ -389,11 +387,13 @@ predict(modelo4, novas.preditoras,
 
 ```
 
-comentario(TODO)
+Observa-se que o intervalo de predição é mais amplo do que o intervalo de confiança, pois considera a incerteza em torno de um valor individual não observado na base de dados. De acordo com os dados obtidos espera-se que um novo valor esteja entre *43.98951* e *449.6944* para a **primeira observação (1)**, esteja entre *275.50965* e *680.6803* para a **segunda observação (2)** e para a **terceira (3)**, é esperado que um novo valor esteja entre *913.63560* e *1323.8604*
 
 **Interpretações**:
 
-TODO
+i. *Intervalo de Confiança:* A incerteza em torno do valor médio esperado é relativamente menor, com intervalos mais estreitos, especialmente para a segunda observação. Isso sugere que o modelo tem boa precisão ao estimar a média da variável resposta para as combinações de preditoras fornecidas.
+
+ii. *Intervalo de Predição:* Reflete a variabilidade esperada para um novo valor individual. Por ser mais amplo, indica que os valores individuais podem ter uma dispersão considerável ao redor das predições ajustadas. Isso é esperado, pois o intervalo de predição leva em conta a variabilidade dos dados em relação ao valor médio.
 
 \
 
