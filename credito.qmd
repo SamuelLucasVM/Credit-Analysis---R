@@ -282,9 +282,9 @@ plot(modelo2)
 Análises análogas à Regressão Linear Simples.
 
 - residual vs fitted: Foi percebido nos gráficos de residuos e altos indices da não linearidade dos dados além de suspeita de heterocedasticidade. Então, para poder melhorar a predição para além do que foi feito nessa análise, seria necessário a utilização de modelos não lineares e mais robustos.
-- QQ plot: o gráfico apresenta "enviesamento para a direita" que mais uma vez traz indicios de não linearidade
-- Scale-location: a direção negativa do gráfico dos valores adaptados pelo modelo reafirma as suspeitas de homocedasticidade, além disso os pontos não aparentam estarem espalhados aleatóriamente no entorno da linha do modelo.
-- residual vs leverage: nenhum ponto dos cados está presente depois da distancia de cook indicando que nenhum ponto é um outlier influente o suficiente para alterar sozinho de forma significativa o resultado do modelo.
+- QQ plot: o gráfico não apresenta nem enviesamento para a direita nem enviesamento para a esqueda porém possui indicios de caudas pesadas, no geral entretanto as suspeitas de não linearidade dminuiram.
+- Scale-location: a direção negativa do gráfico dos valores adaptados pelo modelo reafirma as suspeitas de heterodasticidade, além disso os pontos não aparentam estarem espalhados aleatóriamente no entorno da linha do modelo.
+- residual vs leverage: nenhum ponto dos dados está presente depois da distancia de cook indicando que nenhum ponto é um outlier influente o suficiente para alterar sozinho de forma significativa o resultado do modelo.
 ...
 
 # Interpretações do modelo selecionado
