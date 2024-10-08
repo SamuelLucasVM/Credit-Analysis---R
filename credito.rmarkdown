@@ -20,6 +20,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 
 ```
 
+
 # Introdução
 
 Este relatório tem por objetivo ajustar um modelo de regressão linear múltiplo com o intuito de investigar a influência de determinadas características (medidas) associadas a características de pessoas a característica `gasto médio em crédito` (`“balance”`).
@@ -30,12 +31,14 @@ Utilizaremos o nível de significancia de 10% para toda análise.
 
 # Os dados
 
+
 ```{r}
 library(dplyr)
 library(ISLR)
 
 glimpse(Credit) 
 ```
+
 
 Visualizando rapidamente a estrutura da base de dados, observamos as seguintes variáveis:
 
@@ -53,6 +56,7 @@ Visualizando rapidamente a estrutura da base de dados, observamos as seguintes v
 
 ## Análise exploratória dos dados
 
+
 ```{r}
 library(skimr)
 
@@ -65,6 +69,7 @@ skim(dados)
 dadosNum <- select(dados, -c(Gender, Student, Married, Ethnicity))
 ```
 
+
 ### Comentários:
 
 Podemos observar que há 400 linhas de dados as quais nenhuma vai ser desconsiderada, dado que observamos também que não há dados NaN. Podemos tabém observar que há 4 variáveis qualitativas e que há mais dados de pessoas que não são estudante do que são estudante e mais dados de pessoas casadas do que não casadas.
@@ -73,12 +78,14 @@ Para primeira análise, removeremos os dados qualitativos, para verificarmos pro
 
 ### Análise de correlação {#sec-GGally}
 
+
 ```{r}
 library(GGally)
 
 graf1 <- ggpairs(dadosNum, columns = 1:ncol(dadosNum))
 graf1
 ```
+
 
 #### Comentários
 
@@ -144,6 +151,7 @@ Como esta correlação, em valor absoluto não é superior a 0.9 (ou 0.8) não h
 
 #### Multicolinearidade - Analisando o VIF - Variance Inflation Factor
 
+
 ```{r}
 library(car)
 modelo1 <- lm(Balance ~ ., data = dadosNum)
@@ -151,13 +159,16 @@ modelo1 <- lm(Balance ~ ., data = dadosNum)
 vif(modelo1)
 ```
 
+
 Como podemos ver, são as variáveis `Limit` e `Rating` apresentam vif maior que 10 e são exatamente elas que também apresentaram forte correlação positiva.
 
 # Ajuste do modelo 1
 
+
 ```{r}
 summary(modelo1)
 ```
+
 
 \
 Ao observar o ajuste do primeiro modelo com o intuito de prever o `Gasto médio em crédito` (`Balance`), tem-se que as variáveis `Income`, `Limit`, `Rating` e `Age` explicam de forma estatísticamente significativa e com um bom ajuste indicado pelo Coeficiente de determinação ajustado (Adjusted R-squared: 0.8764). Entretanto, dois resultados nos chamam a atenção, quais sejam:
@@ -180,6 +191,7 @@ Na presente análise, removeremos a variável explicativa `Limit` dado que obser
 
 ## Modelo sem `Limit` (modelo2) {#sec-modelo2selecionado}
 
+
 ```{r}
 modelo2 <- update(modelo1, ~ . -Limit)
 
@@ -188,13 +200,16 @@ summary(modelo2)
 dados <- dados %>% select(-Limit)
 ```
 
+
 > Observa-se que; para este modelo ajustado; As variáveis independentes `Income`, `Rating` e `Age` são estatísticamente significativas com a adequação de ajuste do modelo aos dados igual a 87,5% (Adjusted R-squared: 0.8749).
 
 ### Vif para o modelo
 
+
 ```{r}
 vif(modelo2)
 ```
+
 
 > Podemos ver que não há problema de correlação linear entre as variáveis independentes, visto que o vif deu abaixo de 10.
 
@@ -206,6 +221,7 @@ Agora, colocaremos novamente as variáveis qualitativas para fazermos as anális
 
 ## Análise de correlação
 
+
 ```{r, fig.width=10, fig.height=10}
 dadosGender <- dados %>% select(-c(Student,Married,Ethnicity))
 
@@ -213,7 +229,9 @@ graf2 <- ggpairs(dadosGender, columns = 1:ncol(dadosGender), ggplot2::aes(colour
 print(graf2)
 ```
 
+
 Observamos que ...
+
 
 ```{r, fig.width=10, fig.height=10}
 dadosStudent <- dados %>% select(-c(Gender,Married,Ethnicity))
@@ -222,7 +240,9 @@ graf2 <- ggpairs(dadosStudent, columns = 1:ncol(dadosStudent), ggplot2::aes(colo
 graf2
 ```
 
+
 Observamos que ...
+
 
 ```{r, fig.width=10, fig.height=10}
 dadosMarried <- dados %>% select(-c(Student,Gender,Ethnicity))
@@ -231,7 +251,9 @@ graf2 <- ggpairs(dadosMarried, columns = 1:ncol(dadosMarried), ggplot2::aes(colo
 graf2
 ```
 
+
 Observamos que ...
+
 
 ```{r, fig.width=15, fig.height=10}
 dadosEthnicity <- dados %>% select(-c(Student,Married,Gender))
@@ -240,9 +262,11 @@ graf2 <- ggpairs(dadosEthnicity, columns = 1:ncol(dadosEthnicity), ggplot2::aes(
 graf2
 ```
 
+
 Observamos que ...
 
 ## Multicolinearidade - Analisando o VIF - Variance Inflation Factor
+
 
 ```{r}
 modelo3 <- lm(Balance ~ ., data = dados)
@@ -250,15 +274,19 @@ modelo3 <- lm(Balance ~ ., data = dados)
 vif(modelo3)
 ```
 
+
 Como podemos ver, não há nenhum valor acima de 10, logo, não é notado um problema de multicolinearidade.
 
 ## Modelo com variáveis qualitativas
+
 
 ```{r}
 summary(modelo3)
 ```
 
+
 Observa-se que; para este modelo ajustado; As variáveis independentes Cards, Education, Gender, Married e Ethnicity são estatísticamente insignificativas para a variável resposta Balance, logo, iremos remove-las. Também podemos observar que a variável qualitativa Student é estatisticamente significante para nossa variável resposta.
+
 
 ```{r}
 dados <- dados %>% select(-c(Cards, Education, Gender, Married, Ethnicity))
@@ -266,9 +294,11 @@ dados <- dados %>% select(-c(Cards, Education, Gender, Married, Ethnicity))
 modelo4 <- lm(Balance ~ ., data = dados)
 ```
 
+
 # Métodos de seleção de modelos
 
 ## Medida AIC
+
 
 ```{r}
 AIC(modelo3)
@@ -277,9 +307,11 @@ AIC(modelo4)
 
 ```
 
+
 > Comparando-se os dois modelos; observa-se que o modelo com o menor valor de AIC é o modelo 4. Mas, como regra prática, não observa-se uma diferença entre os valores superior a 10 para que haja um indício significativo de real diferença, então podemos escolher o modelo 3 ou o 4.
 
 ## Medida BIC
+
 
 ```{r}
 BIC(modelo3)
@@ -288,21 +320,26 @@ BIC(modelo4)
 
 ```
 
+
 > De maneira contrária ao AIC, podemos observar um valor de BIC significativamente menor para o modelo 4 (diferença maior que 10), logo, será o modelo selecionado.
 
 ## Comparação de modelos encaixados (ANOVA) e R-Ajustado
 
 \
 
+
 ```{r}
 anova(modelo4, modelo3)
 ```
 
+
 É notável que há um p-valor insignificante ao se comparar o modelo 4 e o modelo 3 com a ANOVA, indicando que a remoção das variáveis não foi significativa.
+
 
 ```{r}
 summary(modelo4)
 ```
+
 
 Podemos perceber que o R-Ajustado para o modelo 3 e para o modelo 4 deram iguais. Logo, também com os resultados da ANOVA,temos que os dois modelos explicam a mesma coisa, ou seja, as variáveis removidas realmente eram insignificantes. Então, selecionamos o com menos variáveis (modelo4).
 
@@ -310,9 +347,11 @@ Podemos perceber que o R-Ajustado para o modelo 3 e para o modelo 4 deram iguais
 
 Diante das análises realizadas até o momento e tendo como objetivos não apenas realizar previsões mas também interpretar de forma prática a relação entre as variáveis; o modelo a ser adotado e a ser **verificado o atendimento dos pressuposto** de um MRLM é o **modelo 4**. Vejamos:
 
+
 ```{r}
 plot(modelo4)
 ```
+
 
 ## Análises dos pressupostos e Comentários
 
@@ -329,11 +368,13 @@ Uma maneira automatizada para se relatar os resultados de um modelo é utilizand
 
 No relatório a ser entregue, o texto deve estar traduzido e interpretado também em termos práticos, de acordo com os objetivos do problema em estudo.
 
+
 ```{r}
 library(report)
 
 report(modelo4)
 ```
+
 
 Nós encaixamos o modelo linear (estimado usando MQO) para prever o Balance atravez de Income, Rating, Age e Student (formula: Balance ~Income + Rating + Age + Student). o modelo explica uma parte estatisticamente significativa e substancial da varianca (R2 = 0.95, F(4,395) = 1892.49, p < .001, adj. R2 = 0.95). o intercepto do modelo, correspondente a Income = 0, Rating = 0, Age = 0 e Student = No está em -547.30 (95% confiança [-589.5,-505.11],t(395) = -25.50, p < .001). neste modelo:
 
@@ -351,18 +392,23 @@ Os parametros padronizados foram obtidos ao encaixar o modelo a uma versão padr
 
 Para realizar previsões sobre valores para a variável resposta, recomenda-se o uso de valores para as variáveis explicativas dentro dos respectivos intervalos observados. Daí a importância de um breve resumo sobre os dados observados:
 
+
 ```{r}
 summary(dados)
 
 ```
 
+
 Agora, suponha que temos por objetivo prever os valores de `Balance` considerando os seguintes valores para as variáveis explicativas:
+
 
 ```{r}
 novas.preditoras <- data.frame(Income=c(21.01, 45.22, 57.47), Rating=c(247.2, 354.9, 437.2), Age=c(41.75, 55.67, 70.0), Student=c("No", "No", "Yes"))
 ```
 
+
 ## Intervalo de Confiança
+
 
 ```{r}
 
@@ -370,9 +416,11 @@ predict(modelo4, novas.preditoras)
 
 ```
 
+
 Os valores obtidos representam previsões pontuais dos dados das varíaveis preditoras selecionadas.
 
 ## Intervalo de Confiança
+
 
 ```{r}
 
@@ -381,17 +429,20 @@ predict(modelo4, novas.preditoras,
 
 ```
 
+
 Com base nos dados obtidos espera-se que para a **primeira observação (1)** a média esteja entre *231.9412* e *261.742*, para a **segunda observação (2)** espera-se uma média entre *467.4312* e  *488.7587*, enquanto para a **terceira observação (3)** a média deve estar entre *1084.9249* e *1152.5710*.
 
 ## Intervalo de Predição/Previsão
 
 Um **intervalo de predição** captura a incerteza em torno de um **único valor** não observado na base de dados e não em torno do seu **valor médio/esperado** o qual é obtido pelas variáveis preditoras observadas na base de dados.
 
+
 ```{r}
 predict(modelo4, novas.preditoras,
         interval = "prediction")
 
 ```
+
 
 Observa-se que o intervalo de predição é mais amplo do que o intervalo de confiança, pois considera a incerteza em torno de um valor individual não observado na base de dados. De acordo com os dados obtidos espera-se que um novo valor esteja entre *43.98951* e *449.6944* para a **primeira observação (1)**, esteja entre *275.50965* e *680.6803* para a **segunda observação (2)** e para a **terceira (3)**, é esperado que um novo valor esteja entre *913.63560* e *1323.8604*
 

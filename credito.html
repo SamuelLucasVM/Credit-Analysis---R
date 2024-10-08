@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -34,7 +34,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -190,7 +190,6 @@ div.csl-indent {
 </section>
 <section id="os-dados" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Os dados</h1>
-<p>É possível baixar os dados do <a href="https://archive.ics.uci.edu/dataset/53/iris">UCI Machine Learning Repository – Iris Data Set</a>, mas a biblioteca <code>ISLR</code> do <em>R</em> já os contém. Apenas carregando a biblioteca, um data frame chamado <code>credit</code> fica disponibilizado e poderá ser usado imediatamente. Vejamos em seguida.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ISLR)</span>
@@ -218,12 +217,12 @@ $ Balance   &lt;int&gt; 333, 903, 580, 964, 331, 1151, 203, 872, 279, 1350, 1407
 <li><code>Credit.ID</code>: Removeremos essa variável dado que não servirá para nossa análise, pois é somente um identificador;</li>
 <li><code>Credit.Income</code>: Quantitativa Continua, Salário do usuário em milhares de dolares;</li>
 <li><code>Credit.Limit</code>: Quantitativa Discreta, Llimite do cartão de crédito do usuário;</li>
-<li><code>Credit.Rating</code>: Quantitativa Discreta, Nível de crédito do usuário;</li>
-<li><code>Credit.Cards</code>: Quantitativa Discreta, Número de cartões de crédito;</li>
+<li><code>Credit.Rating</code>: Quantitativa Discreta, Classificação de crédito do usuário;</li>
+<li><code>Credit.Cards</code>: Quantitativa Discreta, Número de cartões de crédito do usuário;</li>
 <li><code>Credit.Age</code>: Quantitativa Discreta, Idade do usuário;</li>
-<li><code>Credit.Education</code>: Quantitativa Ordinal, Nível de educação do usuário em anos;</li>
-<li><code>Credit.Student</code>: Qualitativa Nominal, Se o usuário foi ou não um estudante;</li>
-<li><code>Credit.Married</code>: Qualitativa Nominal, Se o usuário já se casou;</li>
+<li><code>Credit.Education</code>: Quantitativa Discreta, Nível de educação do usuário em anos;</li>
+<li><code>Credit.Student</code>: Qualitativa Nominal, Se o usuário é ou não um estudante;</li>
+<li><code>Credit.Married</code>: Qualitativa Nominal, Se o usuário é casado ou não;</li>
 <li><code>Credit.Ethnicity</code>: Qualitativa Nominal, Indicador da etnia autointitulada pelo usuário;</li>
 <li><code>Credit.Balance</code>: Variavel resposta de estudo, Qual o gasto médio do cartão de crédito do usuário;</li>
 </ul>
@@ -463,7 +462,8 @@ $ Balance   &lt;int&gt; 333, 903, 580, 964, 331, 1151, 203, 872, 279, 1350, 1407
 </div>
 <section id="comentários" class="level3" data-number="2.1.1">
 <h3 data-number="2.1.1" class="anchored" data-anchor-id="comentários"><span class="header-section-number">2.1.1</span> Comentários:</h3>
-<p>Podemos observar que há 400 linhas de dados as quais nenhuma vai ser desconsiderada, dado que observamos também que não há dados NaN. Podemos tabém observar que há 4 variáveis qualitativas e que há mais dados de pessoas sem estudo do que com estudo e mais casadas do que não casadas.</p>
+<p>Podemos observar que há 400 linhas de dados as quais nenhuma vai ser desconsiderada, dado que observamos também que não há dados NaN. Podemos tabém observar que há 4 variáveis qualitativas e que há mais dados de pessoas que não são estudante do que são estudante e mais dados de pessoas casadas do que não casadas.</p>
+<p>Para primeira análise, removeremos os dados qualitativos, para verificarmos problemas de multicolinearidade nas variáveis quantitativas e primeiras análises.</p>
 </section>
 <section id="sec-GGally" class="level3" data-number="2.1.2">
 <h3 data-number="2.1.2" class="anchored" data-anchor-id="sec-GGally"><span class="header-section-number">2.1.2</span> Análise de correlação</h3>
@@ -479,8 +479,6 @@ $ Balance   &lt;int&gt; 333, 903, 580, 964, 331, 1151, 203, 872, 279, 1350, 1407
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"Grafico_dispersao_iris.jpeg"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="comentários-1" class="level4" data-number="2.1.2.1">
 <h4 data-number="2.1.2.1" class="anchored" data-anchor-id="comentários-1"><span class="header-section-number">2.1.2.1</span> Comentários</h4>
@@ -540,10 +538,10 @@ $ Balance   &lt;int&gt; 333, 903, 580, 964, 331, 1151, 203, 872, 279, 1350, 1407
 <section id="multicolinearidade---analisando-o-vif---variance-inflation-factor" class="level4" data-number="2.1.2.2">
 <h4 data-number="2.1.2.2" class="anchored" data-anchor-id="multicolinearidade---analisando-o-vif---variance-inflation-factor"><span class="header-section-number">2.1.2.2</span> Multicolinearidade - Analisando o VIF - Variance Inflation Factor</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>modelo1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Balance <span class="sc">~</span> ., <span class="at">data =</span> dadosNum)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(modelo1)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>modelo1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Balance <span class="sc">~</span> ., <span class="at">data =</span> dadosNum)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(modelo1)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Income      Limit     Rating      Cards        Age  Education 
   2.773276 228.848290 230.612596   1.433932   1.038541   1.008043 </code></pre>
@@ -557,7 +555,7 @@ $ Balance   &lt;int&gt; 333, 903, 580, 964, 331, 1151, 203, 872, 279, 1350, 1407
 <section id="ajuste-do-modelo-1" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Ajuste do modelo 1</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo1)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo1)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -602,9 +600,9 @@ Ao observar o ajuste do primeiro modelo com o intuito de prever o <code>Gasto m�
 <section id="sec-modelo2selecionado" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="sec-modelo2selecionado"><span class="header-section-number">3.2</span> Modelo sem <code>Limit</code> (modelo2)</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>modelo2 <span class="ot">&lt;-</span> <span class="fu">update</span>(modelo1, <span class="sc">~</span> . <span class="sc">-</span>Limit)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo2)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>modelo2 <span class="ot">&lt;-</span> <span class="fu">update</span>(modelo1, <span class="sc">~</span> . <span class="sc">-</span>Limit)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo2)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -630,7 +628,7 @@ Residual standard error: 162.6 on 394 degrees of freedom
 Multiple R-squared:  0.8765,    Adjusted R-squared:  0.8749 
 F-statistic: 559.3 on 5 and 394 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>Limit)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>Limit)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <blockquote class="blockquote">
 <p>Observa-se que; para este modelo ajustado; As variáveis independentes <code>Income</code>, <code>Rating</code> e <code>Age</code> são estatísticamente significativas com a adequação de ajuste do modelo aos dados igual a 87,5% (Adjusted R-squared: 0.8749).</p>
@@ -638,7 +636,7 @@ F-statistic: 559.3 on 5 and 394 DF,  p-value: &lt; 2.2e-16</code></pre>
 <section id="vif-para-o-modelo" class="level3" data-number="3.2.1">
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="vif-para-o-modelo"><span class="header-section-number">3.2.1</span> Vif para o modelo</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(modelo2)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(modelo2)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Income    Rating     Cards       Age Education 
  2.772528  2.720585  1.018348  1.038468  1.003614 </code></pre>
@@ -658,10 +656,10 @@ F-statistic: 559.3 on 5 and 394 DF,  p-value: &lt; 2.2e-16</code></pre>
 <section id="análise-de-correlação" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="análise-de-correlação"><span class="header-section-number">4.1</span> Análise de correlação</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>dadosGender <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Student,Married,Ethnicity))</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>graf2 <span class="ot">&lt;-</span> <span class="fu">ggpairs</span>(dadosGender, <span class="at">columns =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(dadosGender), ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">colour=</span>Gender), <span class="at">progress =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(graf2)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>dadosGender <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Student,Married,Ethnicity))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>graf2 <span class="ot">&lt;-</span> <span class="fu">ggpairs</span>(dadosGender, <span class="at">columns =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(dadosGender), ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">colour=</span>Gender), <span class="at">progress =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(graf2)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -672,10 +670,10 @@ F-statistic: 559.3 on 5 and 394 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <p>Observamos que …</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>dadosStudent <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Gender,Married,Ethnicity))</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>graf2 <span class="ot">&lt;-</span> <span class="fu">ggpairs</span>(dadosStudent, <span class="at">columns =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(dadosStudent), ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">colour=</span>Student))</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>graf2</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>dadosStudent <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Gender,Married,Ethnicity))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>graf2 <span class="ot">&lt;-</span> <span class="fu">ggpairs</span>(dadosStudent, <span class="at">columns =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(dadosStudent), ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">colour=</span>Student))</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>graf2</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -686,10 +684,10 @@ F-statistic: 559.3 on 5 and 394 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <p>Observamos que …</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dadosMarried <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Student,Gender,Ethnicity))</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>graf2 <span class="ot">&lt;-</span> <span class="fu">ggpairs</span>(dadosMarried, <span class="at">columns =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(dadosMarried), ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">colour=</span>Married))</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>graf2</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>dadosMarried <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Student,Gender,Ethnicity))</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>graf2 <span class="ot">&lt;-</span> <span class="fu">ggpairs</span>(dadosMarried, <span class="at">columns =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(dadosMarried), ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">colour=</span>Married))</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>graf2</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -700,10 +698,10 @@ F-statistic: 559.3 on 5 and 394 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <p>Observamos que …</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>dadosEthnicity <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Student,Married,Gender))</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>graf2 <span class="ot">&lt;-</span> <span class="fu">ggpairs</span>(dadosEthnicity, <span class="at">columns =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(dadosEthnicity), ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">colour=</span>Ethnicity))</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>graf2</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dadosEthnicity <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Student,Married,Gender))</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>graf2 <span class="ot">&lt;-</span> <span class="fu">ggpairs</span>(dadosEthnicity, <span class="at">columns =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(dadosEthnicity), ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">colour=</span>Ethnicity))</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>graf2</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -717,9 +715,9 @@ F-statistic: 559.3 on 5 and 394 DF,  p-value: &lt; 2.2e-16</code></pre>
 <section id="multicolinearidade---analisando-o-vif---variance-inflation-factor-1" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="multicolinearidade---analisando-o-vif---variance-inflation-factor-1"><span class="header-section-number">4.2</span> Multicolinearidade - Analisando o VIF - Variance Inflation Factor</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>modelo3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Balance <span class="sc">~</span> ., <span class="at">data =</span> dados)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(modelo3)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>modelo3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Balance <span class="sc">~</span> ., <span class="at">data =</span> dados)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(modelo3)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              GVIF Df GVIF^(1/(2*Df))
 Income    2.784966  1        1.668822
@@ -738,7 +736,7 @@ Ethnicity 1.027285  2        1.006753</code></pre>
 <section id="modelo-com-variáveis-qualitativas" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="modelo-com-variáveis-qualitativas"><span class="header-section-number">4.3</span> Modelo com variáveis qualitativas</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo3)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo3)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -771,9 +769,9 @@ F-statistic: 757.8 on 10 and 389 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <p>Observa-se que; para este modelo ajustado; As variáveis independentes Cards, Education, Gender, Married e Ethnicity são estatísticamente insignificativas para a variável resposta Balance, logo, iremos remove-las. Também podemos observar que a variável qualitativa Student é estatisticamente significante para nossa variável resposta.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Cards, Education, Gender, Married, Ethnicity))</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>modelo4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Balance <span class="sc">~</span> ., <span class="at">data =</span> dados)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Cards, Education, Gender, Married, Ethnicity))</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>modelo4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Balance <span class="sc">~</span> ., <span class="at">data =</span> dados)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -782,11 +780,11 @@ F-statistic: 757.8 on 10 and 389 DF,  p-value: &lt; 2.2e-16</code></pre>
 <section id="medida-aic" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="medida-aic"><span class="header-section-number">5.1</span> Medida AIC</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(modelo3)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(modelo3)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4854.895</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(modelo4)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(modelo4)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4849.142</code></pre>
 </div>
@@ -798,11 +796,11 @@ F-statistic: 757.8 on 10 and 389 DF,  p-value: &lt; 2.2e-16</code></pre>
 <section id="medida-bic" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="medida-bic"><span class="header-section-number">5.2</span> Medida BIC</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(modelo3)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(modelo3)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4902.793</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(modelo4)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(modelo4)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4873.091</code></pre>
 </div>
@@ -816,7 +814,7 @@ F-statistic: 757.8 on 10 and 389 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p><br>
 </p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modelo4, modelo3)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modelo4, modelo3)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -830,7 +828,7 @@ Model 2: Balance ~ Income + Rating + Cards + Age + Education + Gender +
 </div>
 <p>É notável que há um p-valor insignificante ao se comparar o modelo 4 e o modelo 3 com a ANOVA, indicando que a remoção das variáveis não foi significativa.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo4)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo4)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -862,7 +860,7 @@ F-statistic:  1892 on 4 and 395 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h1 data-number="6"><span class="header-section-number">6</span> Modelo selecionado (modelo4)</h1>
 <p>Diante das análises realizadas até o momento e tendo como objetivos não apenas realizar previsões mas também interpretar de forma prática a relação entre as variáveis; o modelo a ser adotado e a ser <strong>verificado o atendimento dos pressuposto</strong> de um MRLM é o <strong>modelo 4</strong>. Vejamos:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(modelo4)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(modelo4)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -908,9 +906,9 @@ F-statistic:  1892 on 4 and 395 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Uma maneira automatizada para se relatar os resultados de um modelo é utilizando a função <code>report</code> do pacote de mesmo nome.</p>
 <p>No relatório a ser entregue, o texto deve estar traduzido e interpretado também em termos práticos, de acordo com os objetivos do problema em estudo.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(report)</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(modelo4)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(report)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(modelo4)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>We fitted a linear model (estimated using OLS) to predict Balance with Income,
 Rating, Age and Student (formula: Balance ~ Income + Rating + Age + Student).
@@ -938,7 +936,7 @@ version of the dataset. 95% Confidence Intervals (CIs) and p-values were
 computed using a Wald t-distribution approximation.</code></pre>
 </div>
 </div>
-<p>Nós encaixamos o modelo linear (estimado usando OLS) para prever o Balance atravez de Income, Rating, Age e Student (formula: Balance ~Income + Rating + Age + Student). o modelo explica uma parte estatisticamente significativa e substancial da varianca (R2 = 0.95, F(4,395) = 1892.49, p &lt; .001, adj. R2 = 0.95). o intercepto do modelo, correspondente a Income = 0, Rating = 0, Age = 0 e Student = No está em -547.30 (95% confiança [-589.5,-505.11],t(395) = -25.50, p &lt; .001). neste modelo:</p>
+<p>Nós encaixamos o modelo linear (estimado usando MQO) para prever o Balance atravez de Income, Rating, Age e Student (formula: Balance ~Income + Rating + Age + Student). o modelo explica uma parte estatisticamente significativa e substancial da varianca (R2 = 0.95, F(4,395) = 1892.49, p &lt; .001, adj. R2 = 0.95). o intercepto do modelo, correspondente a Income = 0, Rating = 0, Age = 0 e Student = No está em -547.30 (95% confiança [-589.5,-505.11],t(395) = -25.50, p &lt; .001). neste modelo:</p>
 <ul>
 <li><p>O efeito de Income é estatisticamente significativo e negativo (beta = -7.00, 95% de confiança [-8.27,-7.32], t(395) = -32.2, p &lt; .001; desvio padrão beta = -0.60, 95% confiança [-0.63,-0.65])</p></li>
 <li><p>O efeito de Rating é estatisticamente significativo e positivo (beta = 3.98, 95% de confiança [3.87,4.09], t(395) = 72.93, p &lt; .001; desvio padrão beta = 1.34, 95% confiança [1.30,1.38])</p></li>
@@ -951,7 +949,7 @@ computed using a Wald t-distribution approximation.</code></pre>
 <h1 data-number="8"><span class="header-section-number">8</span> Previsões</h1>
 <p>Para realizar previsões sobre valores para a variável resposta, recomenda-se o uso de valores para as variáveis explicativas dentro dos respectivos intervalos observados. Daí a importância de um breve resumo sobre os dados observados:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dados)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dados)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Balance            Income           Rating           Age        Student  
  Min.   :   0.00   Min.   : 10.35   Min.   : 93.0   Min.   :23.00   No :360  
@@ -964,12 +962,12 @@ computed using a Wald t-distribution approximation.</code></pre>
 </div>
 <p>Agora, suponha que temos por objetivo prever os valores de <code>Balance</code> considerando os seguintes valores para as variáveis explicativas:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>novas.preditoras <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Income=</span><span class="fu">c</span>(<span class="fl">21.01</span>, <span class="fl">45.22</span>, <span class="fl">57.47</span>), <span class="at">Rating=</span><span class="fu">c</span>(<span class="fl">247.2</span>, <span class="fl">354.9</span>, <span class="fl">437.2</span>), <span class="at">Age=</span><span class="fu">c</span>(<span class="fl">41.75</span>, <span class="fl">55.67</span>, <span class="fl">70.0</span>), <span class="at">Student=</span><span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"No"</span>, <span class="st">"Yes"</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>novas.preditoras <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Income=</span><span class="fu">c</span>(<span class="fl">21.01</span>, <span class="fl">45.22</span>, <span class="fl">57.47</span>), <span class="at">Rating=</span><span class="fu">c</span>(<span class="fl">247.2</span>, <span class="fl">354.9</span>, <span class="fl">437.2</span>), <span class="at">Age=</span><span class="fu">c</span>(<span class="fl">41.75</span>, <span class="fl">55.67</span>, <span class="fl">70.0</span>), <span class="at">Student=</span><span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"No"</span>, <span class="st">"Yes"</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="intervalo-de-confiança" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="intervalo-de-confiança"><span class="header-section-number">8.1</span> Intervalo de Confiança</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(modelo4, novas.preditoras)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(modelo4, novas.preditoras)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       1        2        3 
  246.842  478.095 1118.748 </code></pre>
@@ -980,8 +978,8 @@ computed using a Wald t-distribution approximation.</code></pre>
 <section id="intervalo-de-confiança-1" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="intervalo-de-confiança-1"><span class="header-section-number">8.2</span> Intervalo de Confiança</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(modelo4, novas.preditoras,</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">interval =</span> <span class="st">"confidence"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(modelo4, novas.preditoras,</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">interval =</span> <span class="st">"confidence"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       fit       lwr       upr
 1  246.842  231.9412  261.7428
@@ -995,8 +993,8 @@ computed using a Wald t-distribution approximation.</code></pre>
 <h2 data-number="8.3" class="anchored" data-anchor-id="intervalo-de-prediçãoprevisão"><span class="header-section-number">8.3</span> Intervalo de Predição/Previsão</h2>
 <p>Um <strong>intervalo de predição</strong> captura a incerteza em torno de um <strong>único valor</strong> não observado na base de dados e não em torno do seu <strong>valor médio/esperado</strong> o qual é obtido pelas variáveis preditoras observadas na base de dados.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(modelo4, novas.preditoras,</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">interval =</span> <span class="st">"prediction"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(modelo4, novas.preditoras,</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">interval =</span> <span class="st">"prediction"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       fit       lwr       upr
 1  246.842  43.98951  449.6944
@@ -1016,7 +1014,15 @@ computed using a Wald t-distribution approximation.</code></pre>
 </section>
 <section id="conclusão" class="level1" data-number="9">
 <h1 data-number="9"><span class="header-section-number">9</span> Conclusão</h1>
-<p>(TODO)</p>
+<p>Depois da análise de correlação, da comparação de modelos e de verificar o modelo selecionado, percebe-se uma correlação da variável resposta <code>Balance</code>(gasto médio em cartão de crédito) com as variáveis explicativas <code>Income</code>(Salário do usuário em milhares de dolares), <code>Rating</code>(Classificação de crédito do usuário), <code>Age</code>(Idade do usuário) e <code>Student</code>(O usuário é ou não estudante). Em relação a essa explicação das variáveis, temos que:</p>
+<ul>
+<li><code>Income</code>: Quanto maior o salário do usuário, temos menos gasto com cartão de crédito, especificamente: a cada unidade de salário em milhar de dolar, temos -7.79773 de gasto com crédito;</li>
+<li><code>Rating</code>: Quanto maior a classificação de crédito do usuário, temos mais gasto com cartão de crédito, especificamente: a cada unidade de classificaçao de crédito, temos +3.98073 de gasto com crédito.</li>
+<li><code>Age</code>: Quanto mais velho for o usuário, temos menos gasto com cartão de crédito, especificamente: a cada ano de idade, temos -0.62418 de gasto com crédito.</li>
+<li><code>Student</code>: Se o usuário for estudante, ele gasta mais com crédito, especificamente: se for estudante, temos +417.50564 de gasto com crédito.</li>
+</ul>
+<p>Além disso, chegamos a um modelo de regressão com R estimado de 0.95, indicando ser um bom modelo para predições.</p>
+<p>Porém, podemos perceber alguns problemas com as suposições de um modelo de regressão linear, como a não normalidade, indicando que talvez seja melhor utilizar outro modelo mais bem ajustado do que o encontrado.</p>
 
 </section>
 
@@ -1061,7 +1067,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1093,29 +1110,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -1123,7 +1118,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
