@@ -258,7 +258,7 @@ Como podemos ver, não há nenhum valor acima de 10, logo, não é notado um pro
 summary(modelo3)
 ```
 
-Observa-se que; para este modelo ajustado; As variáveis independentes Cards, Education, Gender, Married e Ethnicity são estatísticamente insignificativas para a variável resposta Balance, logo, iremos remove-las. Também podemos observar que a variável qualitativa Student é estatisticamente significante para nossa variável resposta.
+Observa-se que; para este modelo ajustado; As variáveis independentes `Cards`, `Education`, `Gender`, `Married` e `Ethnicity` são estatísticamente insignificativas para a variável resposta `Balance`, logo, iremos remove-las. Também podemos observar que a variável qualitativa `Student` é estatisticamente significante para nossa variável resposta.
 
 ```{r}
 dados <- dados %>% select(-c(Cards, Education, Gender, Married, Ethnicity))
@@ -304,7 +304,7 @@ anova(modelo4, modelo3)
 summary(modelo4)
 ```
 
-Podemos perceber que o R-Ajustado para o modelo 3 e para o modelo 4 deram iguais. Logo, também com os resultados da ANOVA,temos que os dois modelos explicam a mesma coisa, ou seja, as variáveis removidas realmente eram insignificantes. Então, selecionamos o com menos variáveis (modelo4).
+Podemos perceber que o R-Ajustado para o modelo 3 e para o modelo 4 deram iguais. Logo, também com os resultados da ANOVA, temos que os dois modelos explicam a mesma coisa, ou seja, as variáveis removidas realmente eram insignificantes. Então, selecionamos o com menos variáveis (modelo4).
 
 # Modelo selecionado (modelo4)
 
@@ -318,16 +318,14 @@ plot(modelo4)
 
 Análises análogas à Regressão Linear Simples.
 
--   residual vs fitted: Foi percebido nos gráficos de residuos e altos indices da não linearidade dos dados além de suspeita de heterocedasticidade. Então, para poder melhorar a predição para além do que foi feito nessa análise, seria necessário a utilização de modelos não lineares e mais robustos.
--   QQ plot: o gráfico não apresenta nem enviesamento para a direita nem enviesamento para a esqueda porém possui indicios de caudas pesadas, no geral entretanto as suspeitas de não linearidade dminuiram.
+-   residual vs fitted: Foi percebido nos gráficos de residuos altos indices da não linearidade dos dados além de suspeita de heterocedasticidade. Então, para poder melhorar a predição para além do que foi feito nessa análise, seria necessário a utilização de modelos não lineares e mais robustos.
+-   QQ plot: o gráfico não apresenta nem enviesamento para a direita nem enviesamento para a esqueda porém possui indicios de caudas pesadas, no geral entretanto há indício de normalidade.
 -   Scale-location: a direção negativa do gráfico dos valores adaptados pelo modelo reafirma as suspeitas de heterocedasticidade, além disso os pontos não aparentam estarem espalhados aleatóriamente no entorno da linha do modelo.
--   residual vs leverage: nenhum ponto dos dados está presente depois da distancia de cook indicando que nenhum ponto é um outlier influente o suficiente para alterar sozinho de forma significativa o resultado do modelo. ...
+-   residual vs leverage: nenhum ponto dos dados está presente depois da distancia de cook indicando que nenhum ponto é um outlier influente o suficiente para alterar sozinho de forma significativa o resultado do modelo.
 
 # Interpretações do modelo selecionado
 
 Uma maneira automatizada para se relatar os resultados de um modelo é utilizando a função `report` do pacote de mesmo nome.
-
-No relatório a ser entregue, o texto deve estar traduzido e interpretado também em termos práticos, de acordo com os objetivos do problema em estudo.
 
 ```{r}
 library(report)
@@ -335,7 +333,9 @@ library(report)
 report(modelo4)
 ```
 
-Nós encaixamos o modelo linear (estimado usando MQO) para prever o Balance atravez de Income, Rating, Age e Student (formula: Balance ~Income + Rating + Age + Student). o modelo explica uma parte estatisticamente significativa e substancial da varianca (R2 = 0.95, F(4,395) = 1892.49, p < .001, adj. R2 = 0.95). o intercepto do modelo, correspondente a Income = 0, Rating = 0, Age = 0 e Student = No está em -547.30 (95% confiança [-589.5,-505.11],t(395) = -25.50, p < .001). neste modelo:
+### Tradução:
+
+Nós encaixamos o modelo linear (estimado usando MQO) para prever o Balance atravez de Income, Rating, Age e Student (formula: Balance ~Income + Rating + Age + Student). o modelo explica uma parte estatisticamente significativa e substancial da variância (R2 = 0.95, F(4,395) = 1892.49, p < .001, adj. R2 = 0.95). o intercepto do modelo, correspondente a Income = 0, Rating = 0, Age = 0 e Student = No está em -547.30 (95% confiança [-589.5,-505.11],t(395) = -25.50, p < .001). neste modelo:
 
 - O efeito de Income é estatisticamente significativo e negativo (beta = -7.00, 95% de confiança [-8.27,-7.32], t(395) = -32.2, p < .001; desvio padrão beta = -0.60, 95% confiança [-0.63,-0.65])
 
@@ -345,7 +345,7 @@ Nós encaixamos o modelo linear (estimado usando MQO) para prever o Balance atra
 
 - O efeito de Student para o sim é estatisticamente significativo e positivo (beta = 417.51, 95% de confiança [383.75,451.26], t(395) = 24.31, p < .001; desvio padrão beta = 0.91, 95% confiança [0.83,0.98])
 
-Os parametros padronizados foram obtidos ao encaixar o modelo a uma versão padronizada da base de dados. com um intervalo de confiança de 95% e p-valor foram computados utilizando uma aprocimação da distribuição-t Wald.
+Os parametros padronizados foram obtidos ao encaixar o modelo a uma versão padronizada da base de dados. com um intervalo de confiança de 95% e p-valor foram computados utilizando uma aproximação da distribuição-t Wald.
 
 # Previsões
 
@@ -362,7 +362,7 @@ Agora, suponha que temos por objetivo prever os valores de `Balance` considerand
 novas.preditoras <- data.frame(Income=c(21.01, 45.22, 57.47), Rating=c(247.2, 354.9, 437.2), Age=c(41.75, 55.67, 70.0), Student=c("No", "No", "Yes"))
 ```
 
-## Intervalo de Confiança
+## Predição Pontual
 
 ```{r}
 
@@ -381,11 +381,11 @@ predict(modelo4, novas.preditoras,
 
 ```
 
-Com base nos dados obtidos espera-se que para a **primeira observação (1)** a média esteja entre *231.9412* e *261.742*, para a **segunda observação (2)** espera-se uma média entre *467.4312* e  *488.7587*, enquanto para a **terceira observação (3)** a média deve estar entre *1084.9249* e *1152.5710*.
+Com base nos dados obtidos espera-se que para a **primeira observação (1)** o valor observado esteja entre *231.9412* e *261.742*, para a **segunda observação (2)** espera-se um valor observado entre *467.4312* e  *488.7587*, enquanto para a **terceira observação (3)** o valor observado deve estar entre *1084.9249* e *1152.5710*.
 
 ## Intervalo de Predição/Previsão
 
-Um **intervalo de predição** captura a incerteza em torno de um **único valor** não observado na base de dados e não em torno do seu **valor médio/esperado** o qual é obtido pelas variáveis preditoras observadas na base de dados.
+Um **intervalo de predição** captura a incerteza em torno de um **único valor** não observado na base de dados e não em torno do seu **valor esperado** o qual é obtido pelas variáveis preditoras observadas na base de dados.
 
 ```{r}
 predict(modelo4, novas.preditoras,
@@ -395,11 +395,9 @@ predict(modelo4, novas.preditoras,
 
 Observa-se que o intervalo de predição é mais amplo do que o intervalo de confiança, pois considera a incerteza em torno de um valor individual não observado na base de dados. De acordo com os dados obtidos espera-se que um novo valor esteja entre *43.98951* e *449.6944* para a **primeira observação (1)**, esteja entre *275.50965* e *680.6803* para a **segunda observação (2)** e para a **terceira (3)**, é esperado que um novo valor esteja entre *913.63560* e *1323.8604*
 
-**Interpretações**:
+**Interpretação**:
 
-i. *Intervalo de Confiança:* A incerteza em torno do valor médio esperado é relativamente menor, com intervalos mais estreitos. Isso sugere que o modelo tem boa precisão ao estimar a média da variável resposta para as combinações de preditoras fornecidas.
-
-ii. *Intervalo de Predição/Previsão:* Reflete a variabilidade esperada para um novo valor individual. Por ser mais amplo, indica que os valores individuais podem ter uma dispersão considerável ao redor das predições ajustadas. Isso é esperado, pois o intervalo de predição leva em conta a variabilidade dos dados em relação ao valor médio.
+*Intervalo de Confiança:* A incerteza em torno do valor médio esperado é relativamente menor, com intervalos mais estreitos. Isso sugere que o modelo tem boa precisão ao estimar a média da variável resposta para as combinações de preditoras fornecidas.
 
 \
 
