@@ -213,16 +213,12 @@ graf2 <- ggpairs(dadosGender, columns = 1:ncol(dadosGender), ggplot2::aes(colour
 print(graf2)
 ```
 
-Observamos que ...
-
 ```{r, fig.width=10, fig.height=10}
 dadosStudent <- dados %>% select(-c(Gender,Married,Ethnicity))
 
 graf2 <- ggpairs(dadosStudent, columns = 1:ncol(dadosStudent), ggplot2::aes(colour=Student))
 graf2
 ```
-
-Observamos que ...
 
 ```{r, fig.width=10, fig.height=10}
 dadosMarried <- dados %>% select(-c(Student,Gender,Ethnicity))
@@ -231,16 +227,12 @@ graf2 <- ggpairs(dadosMarried, columns = 1:ncol(dadosMarried), ggplot2::aes(colo
 graf2
 ```
 
-Observamos que ...
-
 ```{r, fig.width=15, fig.height=10}
 dadosEthnicity <- dados %>% select(-c(Student,Married,Gender))
 
 graf2 <- ggpairs(dadosEthnicity, columns = 1:ncol(dadosEthnicity), ggplot2::aes(colour=Ethnicity))
 graf2
 ```
-
-Observamos que ...
 
 ## Multicolinearidade - Analisando o VIF - Variance Inflation Factor
 
